@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PROGRAMY // Baza Narzędzi - LemoR</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@400;500;700&family=Roboto:wght@300;400;500;700;900&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-body: #0b0f17; --bg-nav: #111726; --bg-card: #131b2e; --bg-card-hover: #18233c;
+            --bg-input: #0a0e17; --border: rgba(255, 255, 255, 0.12); --border-hover: #ffffff;
+            --text-light: #ffffff; --text-main: #94a3b8; --text-muted: #64748b;
+            --accent: #ffffff; --accent-glow: rgba(255, 255, 255, 0.15); --max-w: 1240px;
+        }
+        html { scroll-behavior: smooth; }
+        * { box-sizing: border-box; margin: 0; padding: 0; border-radius: 0 !important; }
+        body { font-family: 'Roboto', -apple-system, BlinkMacSystemFont, sans-serif; -webkit-font-smoothing: antialiased; background-color: var(--bg-body); color: var(--text-main); min-height: 100vh; display: flex; flex-direction: column; overflow-x: hidden; letter-spacing: 0.01em; }
+        .header { background-color: var(--bg-nav); border-bottom: 1px solid var(--border); position: sticky; top: 0; z-index: 100; }
+        .header-container { max-width: var(--max-w); margin: 0 auto; padding: 0 24px; height: 64px; display: flex; align-items: center; justify-content: space-between; }
+        .brand { display: flex; align-items: center; text-decoration: none; color: var(--text-light); font-weight: 900; font-size: 19px; letter-spacing: 1.5px; }
+        .hero { padding: 46px 24px 34px; text-align: center; border-bottom: 1px solid var(--border); background: radial-gradient(circle at 50% 0%, rgba(255, 255, 255, 0.05) 0%, transparent 70%); }
+        .hero h1 { font-size: 32px; font-weight: 900; color: var(--text-light); margin-bottom: 8px; text-transform: uppercase; letter-spacing: 0.5px; }
+        .hero p { font-size: 14.5px; color: var(--text-muted); max-width: 650px; margin: 0 auto 24px; line-height: 1.55; }
+        .search-box { position: relative; max-width: 540px; margin: 0 auto; }
+        .search-box input { width: 100%; background-color: var(--bg-input); border: 1px solid var(--border); color: var(--text-light); padding: 13px 16px 13px 44px; font-size: 13.5px; font-family: inherit; outline: none; }
+        .search-box input:focus { border-color: #ffffff; }
+        .search-box .icon-search { position: absolute; left: 15px; top: 50%; transform: translateY(-50%); width: 16px; height: 16px; pointer-events: none; display: flex; align-items: center; justify-content: center; stroke: #ffffff; }
+        .category-bar { background-color: #0d121c; border-bottom: 1px solid var(--border); padding: 10px 0; position: sticky; top: 64px; z-index: 90; }
+        .category-list { max-width: var(--max-w); margin: 0 auto; padding: 0 24px; display: flex; gap: 6px; overflow-x: auto; scrollbar-width: none; }
+        .category-list::-webkit-scrollbar { display: none; }
+        .cat-btn { background: transparent; border: 1px solid var(--border); color: var(--text-main); padding: 8px 14px; font-size: 11.5px; font-weight: 700; font-family: 'Roboto Mono', monospace; text-transform: uppercase; cursor: pointer; white-space: nowrap; text-decoration: none; }
+        .cat-btn:hover { color: var(--text-light); border-color: rgba(255, 255, 255, 0.4); background: rgba(255, 255, 255, 0.04); }
+        .main-container { max-width: var(--max-w); margin: 0 auto; padding: 30px 24px 80px; width: 100%; flex-grow: 1; }
+        .category-section { scroll-margin-top: 130px; margin-bottom: 46px; }
+        .section-header { margin-bottom: 18px; padding-bottom: 12px; border-bottom: 1px solid var(--border); }
+        .section-header h2 { font-size: 18px; font-weight: 900; color: var(--text-light); text-transform: uppercase; letter-spacing: 0.8px; }
+        .section-desc { font-size: 13.5px; color: var(--text-muted); margin-top: 4px; line-height: 1.5; }
+        .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 18px; }
+        .card { background-color: var(--bg-card); border: 1px solid var(--border); padding: 22px; display: flex; flex-direction: column; text-decoration: none; color: inherit; cursor: pointer; transition: all 0.2s ease; }
+        .card:hover { transform: translateY(-3px); background-color: var(--bg-card-hover); border-color: #ffffff; box-shadow: 0 12px 28px -5px rgba(0,0,0,0.7); }
+        .card h3 { color: var(--text-light); font-size: 16px; font-weight: 700; margin-bottom: 8px; }
+        .card p { font-size: 13.5px; color: var(--text-main); line-height: 1.6; }
+        .empty-state { padding: 50px 20px; text-align: center; background: var(--bg-card); border: 1px dashed var(--border); color: var(--text-muted); font-size: 14px; }
+        @media (max-width: 768px) { .grid { grid-template-columns: 1fr; } }
+    </style>
+</head>
+<body>
+    <header class="header">
+        <div class="header-container">
+            <a href="#" class="brand"><span>LemoR</span></a>
+        </div>
+    </header>
+    <section class="hero">
+        <h1>Baza Programów i Narzędzi</h1>
+        <p>Przejrzysty zbiór przetestowanych aplikacji i narzędzi. Kliknij w wybraną ramkę, aby przejść do strony programu.</p>
+        <div class="search-box">
+            <svg class="icon-search" viewBox="0 0 24 24" fill="none" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                <circle cx="11" cy="11" r="8"></circle>
+                <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+            </svg>
+            <input type="text" id="search-input" placeholder="Szukaj programu w całej bazie...">
+        </div>
+    </section>
+    <nav class="category-bar">
+        <div class="category-list" id="categories-container"></div>
+    </nav>
+    <main class="main-container" id="sections-wrapper"></main>
+    <script>
+        const DANE = {"categories":[{"id":"biuro","title":"BIURO I DOKUMENTY","desc":"Pakiety biurowe, edytory tekstu, arkusze kalkulacyjne oraz lokalne bazy wiedzy."},{"id":"grafika","title":"GRAFIKA I WIDEO","desc":"Programy do obróbki grafiki rastrowej, montażu wideo oraz projektowania."},{"id":"bezpieczenstwo","title":"BEZPIECZEŃSTWO","desc":"Menedżery haseł, skanery antymalware oraz narzędzia do ochrony prywatności."},{"id":"narzedzia","title":"NARZĘDZIA SYSTEMOWE","desc":"Archiwizatory, narzędzia do tworzenia nośników USB oraz usprawnienia systemu."},{"id":"multimedia","title":"MULTIMEDIA I DŹWIĘK","desc":"Odtwarzacze multimedialne oraz profesjonalne edytory dźwięku i podcastów."},{"id":"ai","title":"SZTUCZNA INTELIGENCJA I KOD","desc":"Edytory kodu, lokalne modele sztucznej inteligencji oraz środowiska deweloperskie."}],"tools":[{"id":"tool-1","catId":"biuro","title":"LibreOffice","desc":"Kompletny, bezpłatny pakiet biurowy. Świetna alternatywa dla Microsoft Office, w pełni obsługuje formaty DOCX, XLSX oraz pliki PDF.","url":"https://pl.libreoffice.org"},{"id":"tool-2","catId":"biuro","title":"Microsoft 365 (Office)","desc":"Oficjalny pakiet programów biurowych (Word, Excel, PowerPoint) z bezpiecznym dyskiem chmurowym OneDrive o pojemności 1TB.","url":"https://www.microsoft.com/pl-pl/microsoft-365"},{"id":"tool-3","catId":"biuro","title":"Obsidian","desc":"Zaawansowany program do prowadzenia notatek i bazy wiedzy. Wszystkie dane są zapisywane lokalnie na Twoim dysku w plikach tekstowych.","url":"https://obsidian.md"},{"id":"tool-4","catId":"grafika","title":"GIMP","desc":"Zaawansowany edytor grafiki rastrowej, obróbki zdjęć i fotomontażu. Bezpłatny i sprawdzony odpowiednik programu Adobe Photoshop.","url":"https://www.gimp.org"},{"id":"tool-5","catId":"grafika","title":"Affinity Photo i Designer","desc":"Profesjonalny program graficzny bez comiesięcznego abonamentu. Niezwykle szybki i dopracowany konkurent pakietu Adobe.","url":"https://affinity.serif.com"},{"id":"tool-6","catId":"grafika","title":"DaVinci Resolve","desc":"W pełni profesjonalny, bezpłatny program do montażu wideo, zaawansowanej korekcji kolorów oraz edycji ścieżek dźwiękowych.","url":"https://www.blackmagicdesign.com/pl/products/davinciresolve"},{"id":"tool-7","catId":"bezpieczenstwo","title":"Bitwarden","desc":"Najwyżej oceniany, bezpieczny menedżer haseł. Szyfrowanie od końca do końca, darmowa synchronizacja między komputerem a telefonem.","url":"https://bitwarden.com"},{"id":"tool-8","catId":"bezpieczenstwo","title":"Malwarebytes","desc":"Niezastąpiony skaner do wykrywania i usuwania złośliwego oprogramowania, trojanów oraz programów szpiegujących.","url":"https://pl.malwarebytes.com"},{"id":"tool-9","catId":"narzedzia","title":"7-Zip","desc":"Niezwykle szybki i lekki program do rozpakowywania oraz kompresowania plików (formaty 7z, ZIP, RAR, ISO, TAR).","url":"https://www.7-zip.org"},{"id":"tool-10","catId":"narzedzia","title":"Rufus","desc":"Najlepszy i najprostszy program do tworzenia bootowalnych pendrive'ów z instalatorami systemów Windows oraz Linux.","url":"https://rufus.ie/pl/"},{"id":"tool-11","catId":"narzedzia","title":"Microsoft PowerToys","desc":"Zestaw oficjalnych ułatwień dla systemu Windows: zaawansowane dzielenie ekranu na strefy, linijka ekranowa oraz szybkie kopiowanie tekstu z obrazu.","url":"https://github.com/microsoft/PowerToys"},{"id":"tool-12","catId":"multimedia","title":"Odtwarzacz VLC","desc":"Niezawodny odtwarzacz multimedialny. Odtwarza każdy plik wideo, film z napisami oraz muzykę bez doinstalowywania kodeków.","url":"https://www.videolan.org/vlc/index.pl.html"},{"id":"tool-13","catId":"multimedia","title":"Audacity","desc":"Wielotraktowy edytor dźwięku i nagrywanie audio. Idealny do czyszczenia szumów, nagrywania głosu oraz montażu podcastów.","url":"https://www.audacityteam.org"},{"id":"tool-14","catId":"ai","title":"Visual Studio Code (VS Code)","desc":"Najpopularniejszy edytor tekstu i kodu z tysiącami wtyczek, wbudowanym terminalem oraz obsługą dowolnego języka programowania.","url":"https://code.visualstudio.com"},{"id":"tool-15","catId":"ai","title":"Ollama - Lokalne Modele AI","desc":"Narzędzie pozwalające na bezpłatne uruchamianie sztucznej inteligencji bezpośrednio na własnym komputerze bez wysyłania danych do sieci.","url":"https://ollama.com"}]};
+        let frazaSzukania = "";
+
+        function ucieknijHTML(t) {
+            if (!t) return "";
+            return t.replace(/[&<>'"]/g, z => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', "'": '&#39;', '"': '&quot;' }[z] || z));
+        }
+
+        function przewinDo(id) {
+            const el = document.getElementById(id);
+            if (el) el.scrollIntoView({ behavior: 'smooth' });
+        }
+
+        function renderuj() {
+            const katBox = document.getElementById("categories-container");
+            const wrapper = document.getElementById("sections-wrapper");
+            katBox.innerHTML = "";
+            wrapper.innerHTML = "";
+            let widoczneKarty = 0;
+
+            DANE.categories.forEach(kat => {
+                const idSekcji = 'sekcja-' + kat.id;
+                const btn = document.createElement("button");
+                btn.className = "cat-btn";
+                btn.textContent = kat.title;
+                btn.onclick = () => przewinDo(idSekcji);
+                katBox.appendChild(btn);
+
+                const programy = DANE.tools.filter(t => t.catId === kat.id);
+                const pasujace = programy.filter(t => {
+                    if (frazaSzukania.trim() === "") return true;
+                    const q = frazaSzukania.toLowerCase();
+                    return t.title.toLowerCase().includes(q) || 
+                           t.desc.toLowerCase().includes(q) || 
+                           kat.title.toLowerCase().includes(q) ||
+                           (kat.desc && kat.desc.toLowerCase().includes(q));
+                });
+
+                if (frazaSzukania.trim() !== "" && pasujace.length === 0) return;
+                widoczneKarty += pasujace.length;
+
+                const sekcja = document.createElement("section");
+                sekcja.id = idSekcji;
+                sekcja.className = "category-section";
+
+                let kartyHTML = "";
+                pasujace.forEach(prog => {
+                    kartyHTML += `
+                        <a href="${ucieknijHTML(prog.url)}" target="_blank" rel="noopener noreferrer" class="card">
+                            <h3>${ucieknijHTML(prog.title)}</h3>
+                            <p>${ucieknijHTML(prog.desc)}</p>
+                        </a>
+                    `;
+                });
+
+                sekcja.innerHTML = `
+                    <div class="section-header">
+                        <h2>${ucieknijHTML(kat.title)}</h2>
+                        ${kat.desc ? `<p class="section-desc">${ucieknijHTML(kat.desc)}</p>` : ''}
+                    </div>
+                    <div class="grid">${kartyHTML}</div>
+                `;
+                wrapper.appendChild(sekcja);
+            });
+
+            if (frazaSzukania.trim() !== "" && widoczneKarty === 0) {
+                wrapper.innerHTML = '<div class="empty-state">Brak wyników wyszukiwania.</div>';
+            }
+        }
+
+        document.getElementById("search-input").addEventListener("input", (e) => {
+            frazaSzukania = e.target.value;
+            renderuj();
+        });
+        renderuj();
+    </script>
+</body>
+</html>
