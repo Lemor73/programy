@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>LemoR-programy</title>
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' fill='%23111726' stroke='%23ffffff' stroke-width='2'/%3E%3Ctext x='50%25' y='54%25' dominant-baseline='central' text-anchor='middle' font-family='Roboto, sans-serif' font-weight='900' font-size='20' fill='%23ffffff'%3EL%3C/text%3E%3C/svg%3E">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@400;500;700&family=Roboto:wght@300;400;500;700;900&display=swap" rel="stylesheet">
@@ -19,7 +20,8 @@
         body { font-family: 'Roboto', -apple-system, BlinkMacSystemFont, sans-serif; -webkit-font-smoothing: antialiased; background-color: var(--bg-body); color: var(--text-main); min-height: 100vh; display: flex; flex-direction: column; overflow-x: hidden; letter-spacing: 0.01em; }
         .header { background-color: var(--bg-nav); border-bottom: 1px solid var(--border); position: sticky; top: 0; z-index: 100; }
         .header-container { max-width: var(--max-w); margin: 0 auto; padding: 0 24px; height: 64px; display: flex; align-items: center; justify-content: space-between; }
-        .brand { display: flex; align-items: center; text-decoration: none; color: var(--text-light); font-weight: 900; font-size: 19px; letter-spacing: 1.5px; }
+        .brand { display: flex; align-items: center; gap: 10px; text-decoration: none; color: var(--text-light); font-weight: 900; font-size: 19px; letter-spacing: 1.5px; }
+        .brand-icon { display: inline-flex; align-items: center; justify-content: center; width: 30px; height: 30px; background-color: #ffffff; color: #0b0f17; font-weight: 900; font-size: 18px; line-height: 1; }
         .hero { padding: 46px 24px 34px; text-align: center; border-bottom: 1px solid var(--border); background: radial-gradient(circle at 50% 0%, rgba(255, 255, 255, 0.05) 0%, transparent 70%); }
         .hero h1 { font-size: 32px; font-weight: 900; color: var(--text-light); margin-bottom: 8px; text-transform: uppercase; letter-spacing: 0.5px; }
         .hero p { font-size: 14.5px; color: var(--text-muted); max-width: 650px; margin: 0 auto 24px; line-height: 1.55; }
@@ -57,7 +59,10 @@
 <body>
     <header class="header">
         <div class="header-container">
-            <a href="#" class="brand"><span>LemoR</span></a>
+            <a href="#" class="brand">
+                <span class="brand-icon">L</span>
+                <span>LemoR</span>
+            </a>
         </div>
     </header>
     <section class="hero">
@@ -77,8 +82,7 @@
     <main class="main-container" id="sections-wrapper"></main>
     <footer class="footer">
         <div class="footer-container">
-            <div class="footer-text">Wszystkie artykuły są orginalne i nie przetwarzane.
-Są one własnością autorów.</div>
+            <div class="footer-text">Wszystkie artykuły są orginalne i nie przetwarzane. Są one własnością autorów.</div>
             <div class="footer-copy">© 2026 LemoR. Wszelkie prawa zastrzeżone.</div>
         </div>
     </footer>
