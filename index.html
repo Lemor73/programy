@@ -216,7 +216,7 @@
             stroke: #ffffff;
         }
 
-        /* PRZYKLEJONY PASEK ZAKŁADEK (RESPONSYWNY: GRID NA PC / SWIPE NA MOBILKACH) */
+        /* PRZYKLEJONY PASEK ZAKŁADEK (SIATKA: PC - 1 RZĄD / TELEFON - 2 RÓWNE KOLUMNY) */
         .category-bar {
             background-color: #0d121c;
             border-bottom: 1px solid var(--border);
@@ -315,6 +315,27 @@
             margin-top: 4px;
             line-height: 1.5;
             font-weight: 400;
+        }
+
+        /* PODZIAŁ POLECANYCH WG KATEGORII (CZYSTY TEKST BEZ EMOJI) */
+        .rec-cat-group {
+            margin-bottom: 24px;
+        }
+        .rec-cat-group:last-child {
+            margin-bottom: 0;
+        }
+
+        .rec-cat-title {
+            font-size: 12px;
+            font-weight: 800;
+            color: #ffffff;
+            letter-spacing: 0.8px;
+            margin-bottom: 12px;
+            padding: 6px 10px;
+            background: rgba(255, 255, 255, 0.04);
+            border-left: 2px solid #ffffff;
+            font-family: 'Roboto Mono', monospace;
+            text-transform: uppercase;
         }
 
         .grid {
@@ -856,7 +877,7 @@
         .export-box p { color: var(--text-muted); font-size: 12px; margin-bottom: 10px; line-height: 1.4; }
 
         /* ========================================================
-           RESPONSYWNOŚĆ DLA SMARTFONÓW I TABLETÓW (MOBILE)
+           RESPONSYWNOŚĆ: TELEFON BEZ PRZESUWANIA W BOK (2 KOLUMNY)
            ======================================================== */
         @media (max-width: 768px) {
             :root {
@@ -878,39 +899,34 @@
             }
 
             .hero {
-                padding: 28px 16px 20px;
+                padding: 26px 16px 20px;
             }
 
             .hero h1 {
-                font-size: 21px;
+                font-size: 20px;
                 letter-spacing: 0.2px;
             }
 
             .hero p {
-                font-size: 13.5px;
+                font-size: 13px;
                 margin-bottom: 16px;
             }
 
-            /* Na telefonie pasek staje się poziomym, przewijalnym kciukiem paskiem */
             .category-bar {
                 padding: 8px 0;
             }
 
             .category-list {
-                display: flex;
-                overflow-x: auto;
+                display: grid;
+                grid-template-columns: repeat(2, 1fr);
                 padding: 0 16px;
                 gap: 6px;
-                scrollbar-width: none;
-                -webkit-overflow-scrolling: touch;
             }
-            .category-list::-webkit-scrollbar { display: none; }
 
             .cat-btn {
-                flex: 0 0 auto;
-                width: auto;
-                padding: 8px 12px;
-                font-size: 11px;
+                padding: 8px 6px;
+                font-size: 10px;
+                letter-spacing: 0.2px;
             }
 
             .main-container {
@@ -918,7 +934,7 @@
             }
 
             .category-section {
-                scroll-margin-top: 115px;
+                scroll-margin-top: 170px;
                 margin-bottom: 34px;
             }
 
@@ -1170,7 +1186,7 @@
             "catId": "kat-biuro",
             "title": "Adobe Reader PDF",
             "license": "DARMOWY",
-            "recommended": false,
+            "recommended": true,
             "url": "https://get.adobe.com/pl/reader/",
             "desc": "Oprogramowanie Adobe Acrobat Reader DC stanowi ogólnoświatowy standard niezawodnych, bezpłatnych narzędzi do wyświetlania i drukowania dokumentów."
         },
@@ -1179,7 +1195,7 @@
             "catId": "kat-biuro",
             "title": "PITy IPS",
             "license": "DARMOWY",
-            "recommended": true,
+            "recommended": false,
             "url": "https://pity.pl/",
             "desc": "Bezpłatne narzędzie dla indywidualnych podatników do wypełnienia rocznego zeznania podatkowego, Przekazanie 1% wybranej Organizacji."
         },
@@ -1197,7 +1213,7 @@
             "catId": "kat-internet",
             "title": "Firefox",
             "license": "DARMOWY",
-            "recommended": false,
+            "recommended": true,
             "url": "https://www.firefox.com/pl/?redirect_source=mozilla-org",
             "desc": "To popularna, darmowa przeglądarka internetowa stworzona przez Fundację Mozilla, kładzie duży nacisk na prywatność, otwarte standardy i dostępność."
         },
@@ -1215,7 +1231,7 @@
             "catId": "kat-internet",
             "title": "Brave",
             "license": "DARMOWY",
-            "recommended": true,
+            "recommended": false,
             "url": "https://brave.com/download/",
             "desc": "Darmowa i otwartoźródłowa aplikacja służąca do przeglądania internetu, której celem jest poprawienie prywatności użytkowników oraz szybkie ładowanie stron."
         },
@@ -1233,7 +1249,7 @@
             "catId": "kat-internet",
             "title": "Unchecky",
             "license": "DARMOWY",
-            "recommended": false,
+            "recommended": true,
             "url": "https://www.dobreprogramy.pl/unchecky,program,windows,6628444692445313",
             "desc": "Narzędzie, które pomaga użytkownikom unikać niechcianych zaznaczeń (tzw. „checkboxes”) podczas instalacji oprogramowania."
         },
@@ -1249,7 +1265,7 @@
         {
             "id": "tool-1787021645828",
             "catId": "kat-internet",
-            "title": "Firefoksa ESR",
+            "title": "Firefoks ESR",
             "license": "DARMOWY",
             "recommended": true,
             "url": "https://www.firefox.com/pl/browsers/enterprise/#download",
@@ -1278,7 +1294,7 @@
             "catId": "kat-grafika",
             "title": "Gimp",
             "license": "DARMOWY",
-            "recommended": true,
+            "recommended": false,
             "url": "https://www.gimp.org/downloads/",
             "desc": "Darmowe oprogramowanie do edycji grafiki rastrowej, które jest jednym z najpopularniejszych darmowych alternatyw dla profesjonalnych programów."
         },
@@ -1404,7 +1420,7 @@
             "catId": "kat-narz-dzia",
             "title": "Total Commander",
             "license": "DARMOWY",
-            "recommended": false,
+            "recommended": true,
             "url": "https://totalcmd.pl/pobierz",
             "desc": "jeden z najpopularniejszych menedżerów plików dostępnych dla systemu Windows, który umożliwia wygodne zarządzanie plikami i folderami."
         },
@@ -1422,7 +1438,7 @@
             "catId": "kat-narz-dzia",
             "title": "Patch My PC",
             "license": "DARMOWY",
-            "recommended": true,
+            "recommended": false,
             "url": "https://www.majorgeeks.com/files/details/patch_my_pc.html",
             "desc": "Narzędzie, które automatycznie aktualizuje oprogramowanie na komputerze, zapewniając, że wszystkie aplikacje są najnowsze."
         },
@@ -1449,7 +1465,7 @@
             "catId": "kat-narz-dzia",
             "title": "Rufus",
             "license": "DARMOWY",
-            "recommended": true,
+            "recommended": false,
             "url": "https://rufus.ie/pl/",
             "desc": "Popularne narzędzie do tworzenia bootowalnych (rozruchowych) dysków USB.  Prosty w użyciu, a także obsługuje obrazy dysków, takich jak ISO."
         },
@@ -1458,7 +1474,7 @@
             "catId": "kat-narz-dzia",
             "title": "Ventoy",
             "license": "DARMOWY",
-            "recommended": true,
+            "recommended": false,
             "url": "https://www.ventoy.net/en/download.html",
             "desc": "To darmowe narzędzie ,które umożliwia tworzenie rozruchowych urządzeń USB z wieloma obrazami systemów operacyjnych (ISO, WIM, IMG, VHD, EFI)."
         },
@@ -1512,7 +1528,7 @@
             "catId": "kat-mobile-os",
             "title": "LineageOS",
             "license": "DARMOWY",
-            "recommended": true,
+            "recommended": false,
             "url": "https://lineageos.org/",
             "desc": "System operacyjny oparty na Androidzie,  dostępny na telefony jako alternatywa dla standardowego oprogramowania. bez programów blodware. Posiada instrukcję jak wgrać ROM."
         },
@@ -1521,7 +1537,7 @@
             "catId": "kat-mobile-os",
             "title": "LineageOS dla microG",
             "license": "DARMOWY",
-            "recommended": true,
+            "recommended": false,
             "url": "https://lineage.microg.org/",
             "desc": "System został stworzony z myślą o użytkownikach, którzy chcą korzystać z aplikacji wymagających usług Google, jednocześnie ograniczając zależność od zamkniętego oprogramowania Google."
         },
@@ -1530,7 +1546,7 @@
             "catId": "kat-systemy",
             "title": "Windows Utility",
             "license": "DARMOWY",
-            "recommended": true,
+            "recommended": false,
             "url": "https://christitus.com/windows-tool/",
             "desc": "Narzędzie jest szczególnie przydatne gdy chcemy szybko przygotować system do codziennej pracy, grania lub zastosowań zaawansowanych. WinUtil działa bez klasycznego instalatora i nie wymaga konta ani telemetrycznego zbierania danych."
         },
@@ -1539,7 +1555,7 @@
             "catId": "kat-systemy",
             "title": "Windows Toolbox",
             "license": "PŁATNY",
-            "recommended": true,
+            "recommended": false,
             "url": "https://cttstore.com/",
             "desc": "Windows Toolbox to rozbudowane narzędzie firmy Chris Titus Tech, stworzone z myślą o szybkiej konfiguracji, optymalizacji i zarządzaniu systemem Windows. Wymaga korzystania z wielu narzędzi i ustawień systemowych."
         },
@@ -1548,7 +1564,7 @@
             "catId": "kat-systemy",
             "title": "Forum WinClub",
             "license": "DARMOWY",
-            "recommended": true,
+            "recommended": false,
             "url": "https://winclub.pl/",
             "desc": "WinClub może być przydatnym miejscem dla osób szukających porad, rozwiązań problemów, informacji o modyfikowanych wersjach Windows oraz dyskusji z innymi użytkownikami zainteresowanymi technologią."
         },
@@ -1557,7 +1573,7 @@
             "catId": "kat-linux",
             "title": "Linux Zorin",
             "license": "DARMOWY",
-            "recommended": true,
+            "recommended": false,
             "url": "https://zorin.com/os/",
             "desc": "Zorin OS to nowoczesna dystrybucja Linuksa oparta na Ubuntu, zaprojektowana przede wszystkim z myślą o prostocie, wydajności i łatwym przejściu z systemu Windows. Oferuje znajomy i intuicyjny interfejs."
         },
@@ -1566,7 +1582,7 @@
             "catId": "kat-linux",
             "title": "Linux Mint",
             "license": "DARMOWY",
-            "recommended": true,
+            "recommended": false,
             "url": "https://www.linuxmint.com/",
             "desc": "Linux Mint to popularna dystrybucja Linuksa zaprojektowana z myślą o prostocie, wygodzie i codziennym użytkowaniu. Bazuje na Ubuntu, a projekt oferuje Mint Debian Edition (LMDE) opartą na Debianie."
         },
@@ -1575,7 +1591,7 @@
             "catId": "kat-linux",
             "title": "Forum Linux Mint",
             "license": "DARMOWY",
-            "recommended": true,
+            "recommended": false,
             "url": "https://forum.linuxmint.pl/",
             "desc": "Linux Mint Forums to dobre miejsce, aby znaleźć rozwiązanie konkretnego problemu, podzielić się własnym doświadczeniem lub porozmawiać z innymi użytkownikami zainteresowanymi Linuksem."
         },
@@ -1584,7 +1600,7 @@
             "catId": "kat-ai",
             "title": "ChatGPT",
             "license": "DARMOWY",
-            "recommended": false,
+            "recommended": true,
             "url": "https://chatgpt.com/",
             "desc": "ChatGPT to inteligentny asystent AI stworzony przez OpenAI, który pomaga w codziennej pracy, nauce, tworzeniu treści oraz rozwiązywaniu problemów. Użytkownik komunikuje się z nim w naturalny sposób, zadając pytania lub wydając polecenia."
         },
@@ -1620,7 +1636,7 @@
             "catId": "kat-portale",
             "title": "GitHub",
             "license": "DARMOWY",
-            "recommended": true,
+            "recommended": false,
             "url": "https://github.com/",
             "desc": "GitHub to internetowa platforma służąca do tworzenia, przechowywania i udostępniania kodu źródłowego. Umożliwia pracę nad projektami programistycznymi, współpracę wielu osób oraz śledzenie zmian w kodzie za pomocą systemu Git."
         },
@@ -1629,7 +1645,7 @@
             "catId": "kat-portale",
             "title": "Exite",
             "license": "DARMOWY",
-            "recommended": true,
+            "recommended": false,
             "url": "https://exsite.su/",
             "desc": "EXSite.su to polskojęzyczny portal społecznościowo-downloadowy, który gromadzi informacje i materiały z różnych kategorii. Serwis posiada bazę filmów, seriali, gier, muzyki, ebooków, audiobooków, programów oraz animacji."
         },
@@ -1638,7 +1654,7 @@
             "catId": "kat-portale",
             "title": "Wetransfer",
             "license": "DARMOWY",
-            "recommended": true,
+            "recommended": false,
             "url": "https://wetransfer.com/",
             "desc": "WeTransfer to darmowa internetowa usługa umożliwiająca szybkie przesyłanie i udostępnianie dużych plików. Użytkownik może przesłać dokumenty, zdjęcia, filmy lub inne materiały.Można też wysyłać na e-mail oraz do linku."
         },
@@ -1647,7 +1663,7 @@
             "catId": "kat-linux",
             "title": "Alternativeto",
             "license": "DARMOWY",
-            "recommended": true,
+            "recommended": false,
             "url": "https://alternativeto.net/",
             "desc": "Na stronie można porównywać aplikacje według funkcji, systemu operacyjnego, ceny oraz opinii użytkowników. Przydatne szczególnie wtedy, gdy szukasz zamiennika dla popularnego programu albo chcesz znaleźć darmową alternatywę."
         },
@@ -1656,7 +1672,7 @@
             "catId": "kat-portale",
             "title": "Filefox",
             "license": "PŁATNY",
-            "recommended": true,
+            "recommended": false,
             "url": "https://www.filefox.pl/",
             "desc": "Mozilla Firefox to popularna przeglądarka internetowa rozwijana przez organizację Mozilla. Umożliwia przeglądanie stron WWW, korzystanie z aplikacji internetowych oraz bezpieczne wyszukiwanie informacji w Internecie."
         },
@@ -1674,7 +1690,7 @@
             "catId": "kat-linux",
             "title": "DistroSea",
             "license": "DARMOWY",
-            "recommended": true,
+            "recommended": false,
             "url": "https://distrosea.com/",
             "desc": "DistroSea to serwis internetowy umożliwiający uruchamianie i testowanie różnych dystrybucji Linuksa bez konieczności instalowania ich na komputerze. Można zapoznać się z wyglądem i podstawowymi funkcjami wielu systemów Linux."
         },
@@ -1710,7 +1726,7 @@
             "catId": "kat-multimedia",
             "title": "Easy Audio Extractor",
             "license": "DARMOWY",
-            "recommended": false,
+            "recommended": true,
             "url": "https://www.softpedia.com/get/Multimedia/Audio/Other-AUDIO-Tools/Easy-Audio-Extractor.shtml#download",
             "desc": "Easy Audio Extractor to program służący do wyodrębniania ścieżki dźwiękowej z plików wideo.\nUmożliwia zapisanie dźwięku w różnych formatach oraz jego podstawową obróbkę."
         },
@@ -1719,7 +1735,7 @@
             "catId": "kat-multimedia",
             "title": "Rainmeter",
             "license": "DARMOWY",
-            "recommended": false,
+            "recommended": true,
             "url": "https://www.rainmeter.net/",
             "desc": "Rainmeter to darmowy program do personalizacji pulpitu systemu Windows za pomocą różnego rodzaju widżetów.\nPozwala wyświetlać m.in. pogodę, zegar, informacje o systemie oraz statystyki komputera."
         },
@@ -1728,7 +1744,7 @@
             "catId": "kat-multimedia",
             "title": "Spotify",
             "license": "DARMOWY",
-            "recommended": false,
+            "recommended": true,
             "url": "https://open.spotify.com/",
             "desc": "Spotify to popularna aplikacja do słuchania muzyki, podcastów i audiobooków online.\nUmożliwia tworzenie playlist, odkrywanie nowych utworów oraz korzystanie z gotowych list muzycznych."
         },
@@ -1755,7 +1771,7 @@
             "catId": "kat-multimedia",
             "title": "Youtube Downloader HD",
             "license": "DARMOWY",
-            "recommended": false,
+            "recommended": true,
             "url": "https://www.youtubedownloaderhd.com/download.html",
             "desc": "YouTube Downloader HD to program służący do pobierania filmów z serwisów internetowych i zapisywania ich na komputerze. Umożliwia wybór jakości obrazu oraz konwersję pobranych materiałów do popularnych formatów."
         },
@@ -1773,7 +1789,7 @@
             "catId": "kat-narz-dzia",
             "title": "Kudu",
             "license": "DARMOWY",
-            "recommended": false,
+            "recommended": true,
             "url": "https://usekudu.com/download",
             "desc": "Kudu to narzędzie służące do zarządzania i obsługi aplikacji internetowych.\nUmożliwia dostęp do plików, konsoli oraz informacji o działaniu aplikacji."
         },
@@ -1782,7 +1798,7 @@
             "catId": "kat-narz-dzia",
             "title": "UniGetui",
             "license": "DARMOWY",
-            "recommended": false,
+            "recommended": true,
             "url": "https://devolutions.net/unigetui/",
             "desc": "UniGetUI to program do łatwego zarządzania aplikacjami w systemie Windows.\nUmożliwia wyszukiwanie, instalowanie, aktualizowanie i odinstalowywanie programów."
         },
@@ -1800,7 +1816,7 @@
             "catId": "kat-gry",
             "title": "EA App",
             "license": "PŁATNY",
-            "recommended": false,
+            "recommended": true,
             "url": "https://www.ea.com/pl-pl/ea-app",
             "desc": "Umożliwia zarządzanie biblioteką gier, aktualizacjami oraz dodatkami.\nZnajdują się na niej popularne gry, takie jak The Sims, Battlefield czy EA Sports FC."
         },
@@ -1809,7 +1825,7 @@
             "catId": "kat-gry",
             "title": "EpicGames",
             "license": "PŁATNY",
-            "recommended": false,
+            "recommended": true,
             "url": "https://store.epicgames.com/?lang=pl",
             "desc": "Oferuje wiele popularnych tytułów oraz regularnie udostępnia wybrane gry za darmo.\nPlatforma umożliwia także zarządzanie biblioteką gier i kontakt ze znajomymi."
         },
@@ -1848,6 +1864,33 @@
             "recommended": true,
             "url": "https://filmyhd.net/",
             "desc": "FilmyHD to strona poświęcona filmom i serialom. Można znaleźć na niej różne produkcje z wielu gatunków. Przed korzystaniem warto upewnić się, że dostępne materiały są udostępniane legalnie."
+        },
+        {
+            "id": "tool-1787122500991",
+            "catId": "kat-mobile-os",
+            "title": "Universal Android Debloater",
+            "license": "DARMOWY",
+            "recommended": false,
+            "url": "https://teamandroid.com/universal-android-debloater-gui/#Download_Universal_Android_Debloater_UAD",
+            "desc": "Universal Android Debloater GUI jest wyposażony w szereg funkcji, które sprawiają, że jest to potężne narzędzie do usuwania bloatware z urządzenia z Androidem."
+        },
+        {
+            "id": "tool-1787122782935",
+            "catId": "kat-narz-dzia",
+            "title": "Microsoft Activation Scripts",
+            "license": "DARMOWY",
+            "recommended": false,
+            "url": "https://massgrave.dev/",
+            "desc": "Aktywator systemu Windows i pakietu Office ,obejmujący metody aktywacji HWID, Ohook, TSforge i Online KMS, a także zaawansowane funkcje rozwiązywania problemów. (Administrator Windows PowerShell)."
+        },
+        {
+            "id": "tool-1787123031916",
+            "catId": "kat-narz-dzia",
+            "title": "PortableApps",
+            "license": "",
+            "recommended": false,
+            "url": "https://portableapps.com/",
+            "desc": "PortableApps to platforma oferująca przenośne wersje popularnych aplikacji, które można uruchamiać bez instalowania ich na komputerze."
         }
     ]
 };
@@ -1917,7 +1960,7 @@
             wrapperSekcji.innerHTML = "";
             let lacznaLiczbaWidocznychKarty = 0;
 
-            // 1. ZAKŁADKA I SEKCJA "POLECANE"
+            // 1. ZAKŁADKA I SEKCJA "POLECANE" (Z PODZIAŁEM NA KATEGORIE BEZ IKONEK)
             const wszystkiePolecane = BAZA.tools.filter(t => t.recommended);
             
             const przyciskPolecane = document.createElement("button");
@@ -1931,9 +1974,12 @@
                 if (frazaSzukania.trim() === "") return true;
                 const q = frazaSzukania.toLowerCase();
                 const lic = (t.license || '').toLowerCase();
+                const kat = BAZA.categories.find(c => c.id === t.catId);
+                const katTitle = kat ? kat.title.toLowerCase() : '';
                 return t.title.toLowerCase().includes(q) || 
                        t.desc.toLowerCase().includes(q) || 
-                       lic.includes(q);
+                       lic.includes(q) ||
+                       katTitle.includes(q);
             });
 
             if (wszystkiePolecane.length > 0 && (frazaSzukania.trim() === "" || pasujacePolecane.length > 0)) {
@@ -1943,35 +1989,46 @@
                 sekcjaPolecaneEl.id = 'sekcja-polecane';
                 sekcjaPolecaneEl.className = "category-section";
 
-                let kartyPolecaneHTML = "";
-                pasujacePolecane.forEach(prog => {
-                    const badgeHTML = prog.license ? `<span class="badge">${ucieknijHTML(prog.license)}</span>` : '';
-                    const katProgramu = BAZA.categories.find(c => c.id === prog.catId);
-                    const katBadge = katProgramu ? `<span class="badge" style="border-color:rgba(255,255,255,0.4);">${ucieknijHTML(katProgramu.title)}</span>` : '';
-                    
-                    kartyPolecaneHTML += `
-                        <a href="${ucieknijHTML(prog.url)}" target="_blank" rel="noopener noreferrer" class="card" style="border-color: rgba(255, 255, 255, 0.25);">
-                            <div class="card-header-row">
-                                <h3>${ucieknijHTML(prog.title)}</h3>
-                                <div class="card-badges">
-                                    <span class="badge badge-recommended">★ POLECAM</span>
-                                    ${katBadge}
-                                    ${badgeHTML}
+                let grupyPolecanychHTML = "";
+
+                BAZA.categories.forEach(kat => {
+                    const programyWKat = pasujacePolecane.filter(t => t.catId === kat.id);
+                    if (programyWKat.length > 0) {
+                        let kartyHTML = "";
+                        programyWKat.forEach(prog => {
+                            const badgeHTML = prog.license ? `<span class="badge">${ucieknijHTML(prog.license)}</span>` : '';
+                            kartyHTML += `
+                                <a href="${ucieknijHTML(prog.url)}" target="_blank" rel="noopener noreferrer" class="card" style="border-color: rgba(255, 255, 255, 0.25);">
+                                    <div class="card-header-row">
+                                        <h3>${ucieknijHTML(prog.title)}</h3>
+                                        <div class="card-badges">
+                                            <span class="badge badge-recommended">★ POLECAM</span>
+                                            <span class="badge" style="border-color:rgba(255,255,255,0.4);">${ucieknijHTML(kat.title)}</span>
+                                            ${badgeHTML}
+                                        </div>
+                                    </div>
+                                    <p>${ucieknijHTML(prog.desc)}</p>
+                                </a>
+                            `;
+                        });
+
+                        grupyPolecanychHTML += `
+                            <div class="rec-cat-group">
+                                <div class="rec-cat-title">${ucieknijHTML(kat.title)}</div>
+                                <div class="grid">
+                                    ${kartyHTML}
                                 </div>
                             </div>
-                            <p>${ucieknijHTML(prog.desc)}</p>
-                        </a>
-                    `;
+                        `;
+                    }
                 });
 
                 sekcjaPolecaneEl.innerHTML = `
                     <div class="section-header">
                         <h2>★ WYRÓŻNIONE I POLECANE PROGRAMY</h2>
-                        <p class="section-desc">Zbiór najlepszych i najczęściej rekomendowanych programów ze wszystkich kategorii po instalacji Windowsa.</p>
+                        <p class="section-desc">Niezbędny zestaw sprawdzonych programów i narzędzi, które warto zainstalować zaraz po świeżej instalacji systemu Windows.</p>
                     </div>
-                    <div class="grid">
-                        ${kartyPolecaneHTML}
-                    </div>
+                    ${grupyPolecanychHTML}
                 `;
                 wrapperSekcji.appendChild(sekcjaPolecaneEl);
             }
@@ -2432,6 +2489,7 @@
             `;
             const btnCancel = document.getElementById("prog-cancel-edit-btn");
             if (btnCancel) btnCancel.style.display = "block";
+            
             const mBody = document.querySelector(".modal-body");
             if (mBody) mBody.scrollTop = 0;
             renderujUstawienia();
