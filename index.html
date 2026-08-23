@@ -1,0 +1,2180 @@
+<!DOCTYPE html>
+<html lang="pl"><head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0">
+    <title>LemoR - Programy i Narzędzia</title>
+    
+    <!-- FAVICON Z BIAŁĄ LITERĄ "L" -->
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' fill='%23111726' stroke='%23ffffff' stroke-width='2'/%3E%3Ctext x='50%25' y='54%25' dominant-baseline='central' text-anchor='middle' font-family='Roboto, sans-serif' font-weight='900' font-size='20' fill='%23ffffff'%3EL%3C/text%3E%3C/svg%3E">
+    
+    <!-- CZCIONKI ROBOTO & ROBOTO MONO -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@400;500;700&amp;family=Roboto:wght@300;400;500;700;900&amp;display=swap" rel="stylesheet">
+    
+    <style>
+        :root {
+            --bg-body: #0b0f17;
+            --bg-nav: #111726;
+            --bg-card: #131b2e;
+            --bg-card-hover: #18233c;
+            --bg-input: #0a0e17;
+            
+            --border: rgba(255, 255, 255, 0.12);
+            --border-hover: #ffffff;
+            
+            --text-light: #ffffff;
+            --text-main: #94a3b8;
+            --text-muted: #64748b;
+            
+            --accent: #ffffff;
+            --accent-glow: rgba(255, 255, 255, 0.15);
+            --accent-hover: #e2e8f0;
+            
+            --danger: #ef4444;
+            --danger-bg: rgba(239, 68, 68, 0.15);
+            --success: #22c55e;
+            
+            --max-w: 1240px;
+            --nav-height: 64px;
+        }
+
+        html { 
+            scroll-behavior: smooth; 
+            background-color: var(--bg-body); 
+            -webkit-text-size-adjust: 100%;
+        }
+        * { box-sizing: border-box; margin: 0; padding: 0; border-radius: 0 !important; }
+
+        body {
+            font-family: 'Roboto', -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+            background-color: var(--bg-body);
+            color: var(--text-main);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            overflow-x: hidden;
+            letter-spacing: 0.01em;
+            touch-action: manipulation;
+        }
+
+        /* GÓRNY PASEK MENU */
+        .header {
+            background-color: var(--bg-nav);
+            border-bottom: 1px solid var(--border);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .header-container {
+            max-width: var(--max-w);
+            margin: 0 auto;
+            padding: 0 24px;
+            height: var(--nav-height);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 16px;
+        }
+
+        .brand {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            text-decoration: none;
+            color: var(--text-light);
+            font-weight: 900;
+            font-size: 19px;
+            letter-spacing: 1.5px;
+            font-family: 'Roboto', sans-serif;
+            user-select: none;
+            cursor: pointer;
+        }
+
+        .brand-icon {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 30px;
+            height: 30px;
+            background-color: #ffffff;
+            color: #0b0f17;
+            font-weight: 900;
+            font-size: 18px;
+            font-family: 'Roboto', sans-serif;
+            line-height: 1;
+            box-shadow: 0 0 10px rgba(255, 255, 255, 0.2);
+            flex-shrink: 0;
+        }
+
+        .btn-settings {
+            background-color: #1e293b;
+            color: var(--text-light);
+            border: 1px solid var(--border);
+            padding: 9px 16px;
+            cursor: pointer;
+            font-weight: 700;
+            font-size: 12px;
+            text-transform: uppercase;
+            letter-spacing: 0.8px;
+            font-family: inherit;
+            transition: all 0.2s ease;
+            white-space: nowrap;
+        }
+
+        .btn-settings:hover {
+            border-color: var(--accent);
+            color: #0b0f17;
+            background-color: #ffffff;
+        }
+
+        /* SEKCJA HERO */
+        .hero {
+            padding: 42px 20px 30px;
+            text-align: center;
+            border-bottom: 1px solid var(--border);
+            background: radial-gradient(circle at 50% 0%, rgba(255, 255, 255, 0.05) 0%, transparent 70%);
+        }
+
+        .hero h1 {
+            font-size: 30px;
+            font-weight: 900;
+            color: var(--text-light);
+            letter-spacing: 0.5px;
+            margin-bottom: 10px;
+            text-transform: uppercase;
+            line-height: 1.25;
+        }
+
+        .hero p {
+            font-size: 14.5px;
+            color: var(--text-muted);
+            max-width: 680px;
+            margin: 0 auto 22px;
+            line-height: 1.55;
+            font-weight: 400;
+        }
+
+        /* WYSZUKIWARKA */
+        .search-box {
+            position: relative;
+            max-width: 540px;
+            margin: 0 auto;
+            width: 100%;
+        }
+
+        .search-box input {
+            width: 100%;
+            background-color: var(--bg-input);
+            border: 1px solid var(--border);
+            color: var(--text-light);
+            padding: 13px 18px;
+            font-size: 14px;
+            font-family: inherit;
+            outline: none;
+            text-align: center;
+            transition: border-color 0.2s;
+            -webkit-appearance: none;
+        }
+
+        .search-box input:focus {
+            border-color: var(--accent);
+            box-shadow: 0 0 0 1px #ffffff;
+            text-align: left;
+        }
+
+        /* PASEK MENU KATEGORII */
+        .category-bar {
+            background-color: #0d121c;
+            border-bottom: 1px solid var(--border);
+            padding: 12px 0;
+            position: sticky;
+            top: var(--nav-height);
+            z-index: 90;
+        }
+
+        .category-list {
+            max-width: var(--max-w);
+            margin: 0 auto;
+            padding: 0 24px;
+            display: flex;
+            justify-content: flex-start;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 10px;
+            width: 100%;
+        }
+
+        .cat-btn {
+            background: #131b2e;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            color: var(--text-main);
+            padding: 8px 16px;
+            font-size: 11.5px;
+            font-weight: 700;
+            font-family: 'Roboto Mono', monospace;
+            text-transform: uppercase;
+            letter-spacing: 0.8px;
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            gap: 6px;
+            transition: all 0.2s ease;
+            text-decoration: none;
+            user-select: none;
+            white-space: nowrap;
+        }
+
+        .cat-btn:hover {
+            color: #ffffff;
+            border-color: rgba(255, 255, 255, 0.6);
+            background-color: #1a243d;
+        }
+
+        .cat-btn.active {
+            background: #1e293b !important;
+            color: #ffffff !important;
+            border-color: #ffffff !important;
+            box-shadow: inset 0 0 0 1px #ffffff, 0 0 12px rgba(255, 255, 255, 0.15);
+            font-weight: 800;
+        }
+
+        /* GŁÓWNY OBSZAR ZAWARTOŚCI */
+        .main-container {
+            max-width: var(--max-w);
+            margin: 0 auto;
+            padding: 30px 24px 80px;
+            width: 100%;
+            flex-grow: 1;
+        }
+
+        .category-section {
+            margin-bottom: 50px;
+        }
+
+        .section-header {
+            margin-bottom: 18px;
+            padding-bottom: 12px;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .section-header h2 {
+            font-size: 18px;
+            font-weight: 900;
+            color: var(--text-light);
+            text-transform: uppercase;
+            letter-spacing: 0.8px;
+        }
+
+        .section-desc {
+            font-size: 13.5px;
+            color: var(--text-muted);
+            margin-top: 4px;
+            line-height: 1.5;
+            font-weight: 400;
+        }
+
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+            gap: 16px;
+        }
+
+        /* RAMKA PROGRAMU */
+        .card {
+            background-color: var(--bg-card);
+            border: 1px solid var(--border);
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            text-decoration: none;
+            color: inherit;
+            cursor: pointer;
+            transition: transform 0.2s ease, background-color 0.2s ease, border-color 0.2s ease;
+            position: relative;
+        }
+
+        @media (hover: hover) {
+            .card:hover {
+                transform: translateY(-3px);
+                background-color: var(--bg-card-hover);
+                border-color: #ffffff;
+                box-shadow: 0 12px 28px -5px rgba(0, 0, 0, 0.7), 0 0 15px -3px rgba(255, 255, 255, 0.15);
+            }
+        }
+
+        .card:active {
+            background-color: var(--bg-card-hover);
+            border-color: #ffffff;
+        }
+
+        .card-header-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            gap: 10px;
+            margin-bottom: 8px;
+        }
+
+        .card h3 {
+            color: var(--text-light);
+            font-size: 16px;
+            font-weight: 700;
+            line-height: 1.35;
+            letter-spacing: 0.2px;
+            flex-grow: 1;
+        }
+
+        .card-badges {
+            display: flex;
+            gap: 5px;
+            flex-shrink: 0;
+            flex-wrap: wrap;
+            justify-content: flex-end;
+        }
+
+        .badge {
+            font-size: 10px;
+            font-family: 'Roboto Mono', monospace;
+            font-weight: 700;
+            padding: 3px 7px;
+            text-transform: uppercase;
+            letter-spacing: 0.8px;
+            border: 1px solid rgba(255, 255, 255, 0.25);
+            background: rgba(255, 255, 255, 0.05);
+            color: #ffffff;
+            white-space: nowrap;
+            flex-shrink: 0;
+        }
+
+        .badge-recommended {
+            border-color: #ffffff;
+            background: #ffffff;
+            color: #0b0f17;
+            font-weight: 900;
+        }
+
+        .badge-menu {
+            border-color: rgba(255, 255, 255, 0.6);
+            background: rgba(255, 255, 255, 0.15);
+            color: #ffffff;
+        }
+
+        .badge-hidden {
+            border-color: rgba(239, 68, 68, 0.6);
+            background: rgba(239, 68, 68, 0.15);
+            color: #ef4444;
+        }
+
+        .card p {
+            font-size: 13.5px;
+            color: var(--text-main);
+            line-height: 1.6;
+            font-weight: 400;
+        }
+
+        .empty-state {
+            padding: 45px 20px;
+            text-align: center;
+            background: var(--bg-card);
+            border: 1px dashed var(--border);
+            color: var(--text-muted);
+            font-size: 13.5px;
+        }
+
+        /* STOPKA */
+        .footer {
+            background-color: var(--bg-nav);
+            border-top: 1px solid var(--border);
+            padding: 24px 20px;
+            text-align: center;
+            margin-top: auto;
+        }
+
+        .footer-container {
+            max-width: var(--max-w);
+            margin: 0 auto;
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .footer-text {
+            color: var(--text-light);
+            font-size: 13px;
+            font-weight: 700;
+            letter-spacing: 0.5px;
+            line-height: 1.4;
+        }
+
+        .footer-copy {
+            color: var(--text-muted);
+            font-size: 11.5px;
+            font-family: 'Roboto Mono', monospace;
+            letter-spacing: 0.3px;
+        }
+
+        /* MODAL USTAWIEŃ */
+        .modal-overlay {
+            display: none;
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background-color: rgba(0, 0, 0, 0.85);
+            z-index: 1000;
+            justify-content: center;
+            align-items: center;
+            backdrop-filter: blur(6px);
+            padding: 16px;
+        }
+
+        .modal-content {
+            background-color: var(--bg-nav);
+            border: 1px solid var(--border);
+            width: 95vw;
+            max-width: 1050px;
+            padding: 24px;
+            box-shadow: 0 25px 60px rgba(0,0,0,0.95);
+            max-height: 92vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 14px;
+            border-bottom: 1px solid var(--border);
+            padding-bottom: 12px;
+            flex-shrink: 0;
+        }
+
+        .modal-header h2 {
+            font-size: 16px;
+            font-weight: 800;
+            color: var(--text-light);
+            text-transform: uppercase;
+            letter-spacing: 0.8px;
+        }
+
+        .close-btn {
+            background: none;
+            border: none;
+            color: var(--text-muted);
+            font-size: 24px;
+            cursor: pointer;
+            padding: 0 8px;
+            line-height: 1;
+        }
+        .close-btn:hover { color: var(--danger); }
+
+        .modal-tabs {
+            display: flex;
+            gap: 6px;
+            margin-bottom: 14px;
+            background: var(--bg-body);
+            padding: 4px;
+            border: 1px solid var(--border);
+            flex-shrink: 0;
+            overflow-x: auto;
+        }
+
+        .modal-tab-btn {
+            flex: 1;
+            min-width: 110px;
+            background: none;
+            border: none;
+            color: var(--text-muted);
+            padding: 10px 12px;
+            cursor: pointer;
+            font-weight: 700;
+            font-size: 11.5px;
+            font-family: 'Roboto Mono', monospace;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            transition: 0.2s;
+            text-align: center;
+            white-space: nowrap;
+        }
+
+        .modal-tab-btn.active {
+            color: #0b0f17;
+            background: #ffffff;
+        }
+
+        .modal-body {
+            overflow-y: auto;
+            flex-grow: 1;
+            padding-right: 6px;
+            -webkit-overflow-scrolling: touch;
+        }
+
+        .modal-footer {
+            padding-top: 14px;
+            margin-top: 14px;
+            border-top: 1px solid var(--border);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-shrink: 0;
+            gap: 12px;
+        }
+
+        .btn-modal-close {
+            background: #1e293b;
+            color: var(--text-light);
+            border: 1px solid var(--border);
+            padding: 9px 20px;
+            font-size: 11px;
+            font-weight: 800;
+            font-family: 'Roboto Mono', monospace;
+            cursor: pointer;
+            text-transform: uppercase;
+            letter-spacing: 0.8px;
+            transition: 0.15s;
+            white-space: nowrap;
+        }
+        .btn-modal-close:hover {
+            border-color: #ffffff;
+            background: #ffffff;
+            color: #0b0f17;
+        }
+
+        /* FORMULARZE */
+        .settings-card {
+            background: var(--bg-body);
+            border: 1px solid var(--border);
+            padding: 18px;
+            margin-bottom: 18px;
+        }
+
+        .settings-card-title {
+            font-size: 13px;
+            font-weight: 800;
+            color: var(--text-light);
+            text-transform: uppercase;
+            margin-bottom: 12px;
+            letter-spacing: 0.6px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 8px;
+        }
+
+        .category-quick-toolbar {
+            background: #18233c;
+            border: 1px solid var(--border);
+            padding: 12px 16px;
+            margin-bottom: 16px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 12px;
+            flex-wrap: wrap;
+        }
+
+        .form-group {
+            margin-bottom: 12px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 5px;
+            font-size: 11px;
+            font-weight: 700;
+            color: var(--text-light);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            font-family: 'Roboto Mono', monospace;
+        }
+
+        .form-group input, .form-group select, .form-group textarea {
+            width: 100%;
+            padding: 10px 12px;
+            background-color: var(--bg-input);
+            border: 1px solid var(--border);
+            color: var(--text-light);
+            font-size: 13.5px;
+            font-family: inherit;
+            outline: none;
+            transition: 0.15s;
+            -webkit-appearance: none;
+        }
+
+        .form-group input:focus, .form-group select:focus, .form-group textarea:focus {
+            border-color: #ffffff;
+        }
+
+        .form-group textarea {
+            resize: vertical;
+            min-height: 55px;
+        }
+
+        .checkbox-group {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            cursor: pointer;
+            margin-top: 4px;
+            padding: 6px 0;
+        }
+
+        .checkbox-group input {
+            width: 18px;
+            height: 18px;
+            cursor: pointer;
+            accent-color: #ffffff;
+        }
+
+        .checkbox-group label {
+            margin-bottom: 0;
+            cursor: pointer;
+            font-size: 12px;
+            color: var(--text-light);
+            line-height: 1.4;
+        }
+
+        .submit-btn {
+            width: 100%;
+            padding: 11px;
+            background-color: #ffffff;
+            color: #0b0f17;
+            border: none;
+            font-size: 12px;
+            font-weight: 800;
+            cursor: pointer;
+            text-transform: uppercase;
+            letter-spacing: 0.8px;
+            font-family: inherit;
+            transition: 0.15s;
+            text-align: center;
+        }
+        .submit-btn:hover { background-color: #e2e8f0; }
+
+        .btn-cancel {
+            background: #1e293b;
+            color: var(--text-light);
+            border: 1px solid var(--border);
+            margin-top: 6px;
+        }
+        .btn-cancel:hover { background: #2b384e; }
+
+        .btn-save-order {
+            background: #1e293b;
+            color: #ffffff;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            margin-top: 12px;
+            margin-bottom: 15px;
+        }
+        .btn-save-order:hover {
+            background: #ffffff;
+            color: #0b0f17;
+            border-color: #ffffff;
+        }
+
+        .save-notice {
+            display: none;
+            background-color: var(--bg-card);
+            border: 1px solid #ffffff;
+            color: #ffffff;
+            padding: 9px 12px;
+            font-size: 11.5px;
+            font-family: 'Roboto Mono', monospace;
+            font-weight: 700;
+            margin-bottom: 12px;
+            text-align: center;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.5);
+            animation: fadeIn 0.2s ease-in-out;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(-4px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .items-list {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .list-item-row {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            padding: 12px 14px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 12px;
+            transition: background 0.15s, border-color 0.15s;
+            user-select: none;
+            flex-wrap: wrap;
+        }
+
+        .list-item-row.drag-over {
+            border: 1px dashed #ffffff !important;
+            background-color: rgba(255, 255, 255, 0.12) !important;
+        }
+
+        .drag-handle {
+            color: var(--text-muted);
+            cursor: grab;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 6px 8px;
+            flex-shrink: 0;
+            font-family: 'Roboto Mono', monospace;
+            font-size: 12px;
+            font-weight: 700;
+            letter-spacing: 1px;
+            border: 1px solid var(--border);
+            background: rgba(255, 255, 255, 0.02);
+        }
+        .drag-handle:hover { color: #ffffff; border-color: #ffffff; }
+
+        .list-item-info {
+            overflow: hidden;
+            flex: 1 1 240px;
+            min-width: 200px;
+        }
+
+        .list-item-title {
+            color: var(--text-light);
+            font-weight: 700;
+            font-size: 14px;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            flex-wrap: wrap;
+            margin-bottom: 2px;
+        }
+
+        .list-item-subtitle {
+            color: var(--text-muted);
+            font-size: 12px;
+            line-height: 1.4;
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+        }
+
+        .list-item-actions {
+            display: flex;
+            gap: 5px;
+            flex-shrink: 0;
+            align-items: center;
+            flex-wrap: wrap;
+            justify-content: flex-end;
+        }
+
+        .action-btn {
+            background: transparent;
+            border: 1px solid var(--border);
+            color: var(--text-light);
+            padding: 6px 9px;
+            font-size: 10.5px;
+            font-weight: 700;
+            font-family: 'Roboto Mono', monospace;
+            cursor: pointer;
+            text-transform: uppercase;
+            transition: 0.15s;
+            white-space: nowrap;
+        }
+
+        .action-btn:hover {
+            border-color: #ffffff;
+            background: rgba(255, 255, 255, 0.1);
+        }
+
+        .action-btn.btn-star, .action-btn.btn-pin {
+            color: var(--text-muted);
+        }
+        .action-btn.btn-star.active, .action-btn.btn-pin.active {
+            color: #0b0f17;
+            background: #ffffff;
+            border-color: #ffffff;
+        }
+
+        .action-btn.btn-vis.active {
+            color: #22c55e;
+            border-color: rgba(34, 197, 94, 0.5);
+            background: rgba(34, 197, 94, 0.1);
+        }
+        .action-btn.btn-vis.inactive {
+            color: var(--danger);
+            border-color: rgba(239, 68, 68, 0.5);
+            background: rgba(239, 68, 68, 0.12);
+        }
+
+        .action-btn.btn-nav {
+            padding: 6px 8px;
+            font-size: 10.5px;
+        }
+
+        .action-btn.btn-del {
+            color: var(--danger);
+            border-color: rgba(239, 68, 68, 0.3);
+        }
+        .action-btn.btn-del:hover {
+            background: var(--danger);
+            color: #ffffff;
+        }
+
+        .export-box {
+            background-color: var(--bg-body);
+            border: 1px solid var(--border);
+            padding: 16px;
+            margin-bottom: 14px;
+        }
+        .export-box h4 {
+            color: var(--text-light);
+            font-size: 13px;
+            margin-bottom: 5px;
+            font-weight: 800;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        .export-box p { color: var(--text-muted); font-size: 12.5px; margin-bottom: 12px; line-height: 1.45; }
+
+        @media (max-width: 768px) {
+            :root {
+                --nav-height: 56px;
+            }
+
+            .header-container {
+                padding: 0 16px;
+                height: var(--nav-height);
+            }
+
+            .brand {
+                font-size: 17px;
+            }
+
+            .btn-settings {
+                padding: 6px 10px;
+                font-size: 11px;
+            }
+
+            .hero {
+                padding: 26px 16px 20px;
+            }
+
+            .hero h1 {
+                font-size: 20px;
+                letter-spacing: 0.2px;
+            }
+
+            .hero p {
+                font-size: 13px;
+                margin-bottom: 16px;
+            }
+
+            .category-bar {
+                padding: 8px 0;
+            }
+
+            .category-list {
+                padding: 0 16px;
+                gap: 6px;
+            }
+
+            .cat-btn {
+                padding: 7px 12px;
+                font-size: 10.5px;
+            }
+
+            .main-container {
+                padding: 20px 16px 60px;
+            }
+
+            .section-header h2 {
+                font-size: 16px;
+            }
+
+            .grid {
+                grid-template-columns: 1fr;
+                gap: 12px;
+            }
+
+            .card {
+                padding: 16px;
+            }
+
+            .card h3 {
+                font-size: 15px;
+            }
+
+            .modal-content {
+                width: 98vw;
+                padding: 14px;
+            }
+
+            .list-item-row {
+                flex-direction: column;
+                align-items: flex-start;
+                padding: 12px;
+            }
+
+            .list-item-info {
+                width: 100%;
+                flex: none;
+            }
+
+            .list-item-actions {
+                width: 100%;
+                justify-content: flex-start;
+                margin-top: 8px;
+                gap: 6px;
+            }
+
+            .modal-footer {
+                flex-direction: column;
+                align-items: stretch;
+            }
+
+            .modal-footer span {
+                text-align: center;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- GÓRNY PASEK MENU -->
+    <header class="header">
+        <div class="header-container">
+            <a href="#" class="brand" id="brand-logo-link">
+                <span class="brand-icon">L</span>
+                <span>LemoR</span>
+            </a>
+            
+            
+        </div>
+    </header>
+
+    <!-- NAGŁÓWEK I WYSZUKIWARKA -->
+    <section class="hero">
+        <h1>Programy i Narzędzia Płatne i Darmowe</h1>
+        <p>Przejrzysty zbiór przetestowanych programów i narzędzi. Kliknij w wybraną ramkę, aby przejść do strony programu.</p>
+        
+        <div class="search-box">
+            <input type="text" id="search-input" placeholder="Szukaj programu w całej bazie..." autocomplete="off">
+        </div>
+    </section>
+
+    <!-- PASEK MENU KATEGORII -->
+    <nav class="category-bar">
+        <div class="category-list" id="categories-container"></div>
+    </nav>
+
+    <!-- GŁÓWNA ZAWARTOŚĆ -->
+    <main class="main-container" id="sections-wrapper"></main>
+
+    <!-- STOPKA STRONY -->
+    <footer class="footer">
+        <div class="footer-container">
+            <div class="footer-text">Wszystkie artykuły są orginalne i nie przetwarzane. Są one własnością autorów</div>
+            <div class="footer-copy">© 2026 LemoR - Wszelkie prawa zastrzeżone.</div>
+        </div>
+    </footer>
+
+    <!-- OKNO USTAWIEŃ -->
+    
+
+    <script id="main-script">
+        const BAZA = {
+    "categories": [
+        {
+            "id": "kat-bezpieczenstwo",
+            "title": "BEZPIECZENSTWO",
+            "desc": "Ochrona komputera przed wszelakiego rodzaju złośliwym oprogramowaniem.",
+            "showInMenu": false,
+            "visible": true
+        },
+        {
+            "id": "kat-biuro",
+            "title": "BIURO",
+            "desc": "Pakiety biurowe, zawierające zestaw podstawowych aplikacji do pracy z dokumentami, arkuszami.",
+            "showInMenu": false,
+            "visible": true
+        },
+        {
+            "id": "kat-internet",
+            "title": "INTERNET",
+            "desc": "Przeglądarki internetowe, funkcjonalny klient FTP, edytory kodów źródłowych i wiele innych.",
+            "showInMenu": false,
+            "visible": true
+        },
+        {
+            "id": "kat-grafika",
+            "title": "GRAFIKA",
+            "desc": "Przeglądarki graficzne, edytory obróbki fotografii obrazów cyfrowych oraz edycji grafiki rastrowej.",
+            "showInMenu": false,
+            "visible": true
+        },
+        {
+            "id": "kat-multimedia",
+            "title": "MULTIMEDIA",
+            "desc": "Odtwarzacze filmów video. Kodeki, nagrywanie płyt CD, DVD i BLURAY, odtwarzacze muzyki.",
+            "showInMenu": false,
+            "visible": true
+        },
+        {
+            "id": "kat-narz-dzia",
+            "title": "NARZĘDZIA",
+            "desc": "Menadżery plików, identyfikacja sprzętu, odzyskiwania utraconych plików, instalacja sterowników itp.",
+            "showInMenu": true,
+            "visible": false
+        },
+        {
+            "id": "kat-systemy",
+            "title": "SYSTEM OS",
+            "desc": "Modyfikacje systemu Windows, której celem jest zmniejszenie liczby zbędnych procesów i usług, ograniczenie telemetrii oraz poprawa wydajności i opóźnień.",
+            "showInMenu": true,
+            "visible": false
+        },
+        {
+            "id": "kat-mobile-os",
+            "title": "MOBILE OS",
+            "desc": "Poznaj systemy operacyjne stworzone z myślą o urządzeniach mobilnych. Znajdziesz tutaj informacje, poradniki, modyfikacje oraz ciekawostki dotyczące Androida, iOS i innych platform mobilnych.",
+            "showInMenu": false,
+            "visible": false
+        },
+        {
+            "id": "kat-linux",
+            "title": "LINUX",
+            "desc": "Linux to zakładka poświęcona systemom operacyjnym opartym na jądrze Linux. Znajdziesz tutaj informacje o popularnych dystrybucjach, ich możliwościach, zastosowaniach oraz różnicach między poszczególnymi wydaniami.",
+            "showInMenu": false,
+            "visible": false
+        },
+        {
+            "id": "kat-portale",
+            "title": "PORTALE",
+            "desc": "Portal z linkami – praktyczna strona gromadząca przydatne odnośniki do stron internetowych w jednym miejscu.",
+            "showInMenu": true,
+            "visible": false
+        },
+        {
+            "id": "kat-gry",
+            "title": "GRY",
+            "desc": "Gry komputerowe to programy stworzone głównie w celach rozrywkowych.\nPozwalają użytkownikom wcielać się w różne postacie, wykonywać zadania i rywalizować z innymi.",
+            "showInMenu": false,
+            "visible": false
+        },
+        {
+            "id": "kat-filmy",
+            "title": "FILMY",
+            "desc": "Wybrane linki do filmów i serwisów filmowych w jednym miejscu. Znajdziesz tutaj ciekawe propozycje filmów z różnych gatunków. Wybierz interesujący Cię link i rozpocznij oglądanie.",
+            "showInMenu": false,
+            "visible": false
+        },
+        {
+            "id": "kat-ai",
+            "title": "AI",
+            "desc": "Odkrywaj możliwości sztucznej inteligencji bez konieczności wykupowania subskrypcji i wybieraj narzędzia dopasowane do swoich potrzeb.",
+            "showInMenu": true,
+            "visible": false
+        }
+    ],
+    "tools": [
+        {
+            "id": "tool-1787015285310",
+            "catId": "kat-bezpieczenstwo",
+            "title": "Bitdefender Antivirus",
+            "license": "DARMOWY",
+            "recommended": true,
+            "url": "https://www.bitdefender.com/en-us/consumer/free-antivirus",
+            "desc": "Ochrona antywirusowa dla systemu Windows. Zapewnia podstawową ochronę przed e-zagrożeniami. Szybki w instalacji i łatwy w użyciu."
+        },
+        {
+            "id": "tool-1787015498599",
+            "catId": "kat-bezpieczenstwo",
+            "title": "Avast",
+            "license": "DARMOWY",
+            "recommended": false,
+            "url": "https://www.avast.com/pl-pl/free-antivirus-download#pc",
+            "desc": "Oferuje dostęp do największej na świecie sieci detekcji zagrożeń, opartych na technologii uczenia maszynowego algorytmów do ochrony przed wirusami."
+        },
+        {
+            "id": "tool-1787015429665",
+            "catId": "kat-bezpieczenstwo",
+            "title": "Kaspersky",
+            "license": "PŁATNY",
+            "recommended": false,
+            "url": "https://www.kaspersky.com.pl/kaspersky-free",
+            "desc": "W wersji trial otrzymujemy ochronę wszystkich danych na komputerze, a także bezpieczeństwo podczas korzystania ze skrzynki mejlowej."
+        },
+        {
+            "id": "tool-1787015747763",
+            "catId": "kat-bezpieczenstwo",
+            "title": "Malvarebytes",
+            "license": "DARMOWY",
+            "recommended": false,
+            "url": "https://www.malwarebytes.com/",
+            "desc": "Malwarebytes zapewnia Ci spokój ducha, zabezpieczając Twoje urządzenia i połączenia internetowe za pomocą nowatorskiej technologii."
+        },
+        {
+            "id": "tool-1787015579531",
+            "catId": "kat-bezpieczenstwo",
+            "title": "Eset",
+            "license": "PŁATNY",
+            "recommended": true,
+            "url": "https://www.eset.com/pl/home/protection-plans/",
+            "desc": "ESET to firma zajmująca się tworzeniem oprogramowania zabezpieczającego, specjalizująca się głównie w antywirusach oraz rozwiązaniach ochrony prywatności."
+        },
+        {
+            "id": "tool-1787015797240",
+            "catId": "kat-bezpieczenstwo",
+            "title": "360 Total Security",
+            "license": "DARMOWY",
+            "recommended": false,
+            "url": "https://website.360totalsecurity.com/en/",
+            "desc": "To darmowy program antywirusowy oferujący ochronę i narzędzia do optymalizacji komputera. Chroni przed wirusami."
+        },
+        {
+            "id": "tool-1787018737674",
+            "catId": "kat-biuro",
+            "title": "LibreOffice",
+            "license": "DARMOWY",
+            "recommended": true,
+            "url": "https://www.libreoffice.org/",
+            "desc": "To wolny, darmowy i  pakiet biurowy o szerokich możliwościach. Jest następcą OpenOffice używanym codziennie przez miliony osób na całym świecie."
+        },
+        {
+            "id": "tool-1787019513611",
+            "catId": "kat-biuro",
+            "title": "OnlyOffice",
+            "license": "DARMOWY",
+            "recommended": false,
+            "url": "https://www.onlyoffice.com/download-desktop?from=desktop",
+            "desc": "Wszystkie narzędzia potrzebne do pracy z dokumentami tekstowymi, arkuszami kalkulacyjnymi, prezentacjami i formularzami w systemach Windows, Linux i macOS."
+        },
+        {
+            "id": "tool-1787019696639",
+            "catId": "kat-biuro",
+            "title": "PDF-XChange Viewer",
+            "license": "DARMOWY",
+            "recommended": true,
+            "url": "https://www.dobreprogramy.pl/pdf-xchange-viewer,program,windows,6628551009605761",
+            "desc": "Oferuje podstawowe funkcje przeglądania, drukowania plików PDF. Jest mniej zaawansowana niż edytor, posiada narzędzia do wyświetlania i oznaczania dokumentów."
+        },
+        {
+            "id": "tool-1787019592662",
+            "catId": "kat-biuro",
+            "title": "Adobe Reader PDF",
+            "license": "DARMOWY",
+            "recommended": true,
+            "url": "https://get.adobe.com/pl/reader/",
+            "desc": "Oprogramowanie Adobe Acrobat Reader DC stanowi ogólnoświatowy standard niezawodnych, bezpłatnych narzędzi do wyświetlania i drukowania dokumentów."
+        },
+        {
+            "id": "tool-1787019794527",
+            "catId": "kat-biuro",
+            "title": "PITy IPS",
+            "license": "DARMOWY",
+            "recommended": false,
+            "url": "https://pity.pl/",
+            "desc": "Bezpłatne narzędzie dla indywidualnych podatników do wypełnienia rocznego zeznania podatkowego, Przekazanie 1% wybranej Organizacji."
+        },
+        {
+            "id": "tool-1787019747830",
+            "catId": "kat-biuro",
+            "title": "Sumatra PDF",
+            "license": "DARMOWY",
+            "recommended": false,
+            "url": "https://www.sumatrapdfreader.org/download-free-pdf-viewer",
+            "desc": "Doskonały wybór dla użytkowników, którzy potrzebują prostego, szybkiego narzędzia do przeglądania dokumentów PDF i innych popularnych formatów."
+        },
+        {
+            "id": "tool-1787021065018",
+            "catId": "kat-internet",
+            "title": "Firefox",
+            "license": "DARMOWY",
+            "recommended": true,
+            "url": "https://www.firefox.com/pl/?redirect_source=mozilla-org",
+            "desc": "To popularna, darmowa przeglądarka internetowa stworzona przez Fundację Mozilla, kładzie duży nacisk na prywatność, otwarte standardy i dostępność."
+        },
+        {
+            "id": "tool-1787021125096",
+            "catId": "kat-internet",
+            "title": "Opera",
+            "license": "DARMOWY",
+            "recommended": false,
+            "url": "https://www.opera.com/pl#see-more",
+            "desc": "Jedna z najstarszych i najbardziej rozpoznawalnych przeglądarek internetowych, która od początku swojego istnienia stawia na innowacyjność i funkcjonalność."
+        },
+        {
+            "id": "tool-1787021185759",
+            "catId": "kat-internet",
+            "title": "Brave",
+            "license": "DARMOWY",
+            "recommended": false,
+            "url": "https://brave.com/download/",
+            "desc": "Darmowa i otwartoźródłowa aplikacja służąca do przeglądania internetu, której celem jest poprawienie prywatności użytkowników oraz szybkie ładowanie stron."
+        },
+        {
+            "id": "tool-1787021250160",
+            "catId": "kat-internet",
+            "title": "Thunderbird",
+            "license": "DARMOWY",
+            "recommended": false,
+            "url": "https://www.thunderbird.net/pl/",
+            "desc": "Owartoźródłowy program pocztowy stworzony przez Fundację Mozilla. Jest dostępny w wielu językach, i służy do zarządzania kontami e-mail, wiadomościami."
+        },
+        {
+            "id": "tool-1787021334358",
+            "catId": "kat-internet",
+            "title": "Unchecky",
+            "license": "DARMOWY",
+            "recommended": true,
+            "url": "https://www.dobreprogramy.pl/unchecky,program,windows,6628444692445313",
+            "desc": "Narzędzie, które pomaga użytkownikom unikać niechcianych zaznaczeń (tzw. „checkboxes”) podczas instalacji oprogramowania."
+        },
+        {
+            "id": "tool-1787021382306",
+            "catId": "kat-internet",
+            "title": "Vivaldi",
+            "license": "DARMOWY",
+            "recommended": false,
+            "url": "https://vivaldi.com/pl/download/",
+            "desc": "Wieloplatformowa przeglądarka internetowa, która kładzie duży nacisk na personalizację, prywatność i wydajność."
+        },
+        {
+            "id": "tool-1787021645828",
+            "catId": "kat-internet",
+            "title": "Firefoks ESR",
+            "license": "DARMOWY",
+            "recommended": true,
+            "url": "https://www.firefox.com/pl/browsers/enterprise/#download",
+            "desc": "Firefox ESR (Extended Support Release) to specjalna wersja przeglądarki Mozilla Firefox, stworzona z myślą o użytkownikach, którzy cenią stabilność, bezpieczeństwo i długoterminowe wsparcie."
+        },
+        {
+            "id": "tool-1787021797128",
+            "catId": "kat-grafika",
+            "title": "Photoshop",
+            "license": "PŁATNY",
+            "recommended": false,
+            "url": "https://www.adobe.com/pl/products/photoshop.html",
+            "desc": "Płatny zaawansowany program graficzny, który stał się jednym z najpopularniejszych narzędzi do edycji zdjęć i tworzenia grafiki komputerowej."
+        },
+        {
+            "id": "tool-1787021853002",
+            "catId": "kat-grafika",
+            "title": "Lightroom",
+            "license": "PŁATNY",
+            "recommended": false,
+            "url": "https://www.adobe.com/pl/products/photoshop-lightroom/free-trial-download.html",
+            "desc": "Profesjonalne płatne oprogramowanie do obróbki i zarządzania zdjęciami, które jest szczególnie popularne wśród fotografów."
+        },
+        {
+            "id": "tool-1787021903415",
+            "catId": "kat-grafika",
+            "title": "Gimp",
+            "license": "DARMOWY",
+            "recommended": false,
+            "url": "https://www.gimp.org/downloads/",
+            "desc": "Darmowe oprogramowanie do edycji grafiki rastrowej, które jest jednym z najpopularniejszych darmowych alternatyw dla profesjonalnych programów."
+        },
+        {
+            "id": "tool-1787021951998",
+            "catId": "kat-grafika",
+            "title": "XnView",
+            "license": "DARMOWY",
+            "recommended": true,
+            "url": "https://www.xnview.com/en/xnview/#downloads",
+            "desc": "To darmowy program do przeglądania, organizowania i edytowania zdjęć, który obsługuje wiele formatów plików graficznych. Dostępny na Windows, macOS i Linux."
+        },
+        {
+            "id": "tool-1787022057902",
+            "catId": "kat-grafika",
+            "title": "FastStone Image Viewer",
+            "license": "DARMOWY",
+            "recommended": true,
+            "url": "https://download.cnet.com/faststone-image-viewer/3000-18488_4-10324485.html?rex=true",
+            "desc": "FastStone Image Viewer to popularny, darmowy program do przeglądania, edytowania i zarządzania zdjęciami JPG,RAW.Jest ceniony za swoją prostotę, szybkość działania"
+        },
+        {
+            "id": "tool-1787022124373",
+            "catId": "kat-grafika",
+            "title": "PhotoScapeX",
+            "license": "DARMOWY",
+            "recommended": false,
+            "url": "https://apps.microsoft.com/detail/9nblggh4twwg?hl=pl-PL&gl=US",
+            "desc": "Darmowy program do edycji zdjęć i tworzenia grafiki, Zaawansowane narzędzie,oferujące bogaty zestaw funkcji,"
+        },
+        {
+            "id": "tool-1787022333148",
+            "catId": "kat-grafika",
+            "title": "RapidRAW",
+            "license": "DARMOWY",
+            "recommended": true,
+            "url": "https://www.getrapidraw.com/",
+            "desc": "RapidRAW to nowoczesny, wydajny edytor zdjęć RAW stworzony z myślą o fotografach, którzy chcą szybko uzyskać świetny efekt bez skomplikowanego interfejsu. Konkurent Lightroom."
+        },
+        {
+            "id": "tool-1787023860973",
+            "catId": "kat-multimedia",
+            "title": "K-Lite Codec Pack",
+            "license": "DARMOWY",
+            "recommended": true,
+            "url": "https://codecguide.com/download_k-lite_codec_pack_full.htm",
+            "desc": "Popularny zestaw kodeków, filtrów i narzędzi do odtwarzania, edytowania oraz konwertowania plików multimedialnych w systemie Windows."
+        },
+        {
+            "id": "tool-1787023951017",
+            "catId": "kat-multimedia",
+            "title": "VLC",
+            "license": "DARMOWY",
+            "recommended": false,
+            "url": "https://www.videolan.org/vlc/index.pl.html",
+            "desc": "To jeden z najpopularniejszych, darmowych odtwarzaczy multimedialnych dostępnych na wielu platformach, w tym Windows, macOS, Linux, Android i iOS."
+        },
+        {
+            "id": "tool-1787024027668",
+            "catId": "kat-multimedia",
+            "title": "Aimp",
+            "license": "DARMOWY",
+            "recommended": true,
+            "url": "https://aimp.ru/?do=download&os=windows",
+            "desc": "Darmowy, lekki i funkcjonalny odtwarzacz muzyczny, który jest popularny szczególnie wśród użytkowników systemu Windows."
+        },
+        {
+            "id": "tool-1787024099093",
+            "catId": "kat-multimedia",
+            "title": "CDBurnerXP",
+            "license": "DARMOWY",
+            "recommended": true,
+            "url": "https://www.fosshub.com/CDBurnerXP.html",
+            "desc": "Program do nagrywania płyt CD, DVD, HD-DVD i Blu-ray, oferuje tworzenie i nagrywanie danych, muzyki oraz obrazów płyt. Jest dostępny na systemy Windows."
+        },
+        {
+            "id": "tool-1787024146907",
+            "catId": "kat-multimedia",
+            "title": "Mp3DirectCut",
+            "license": "DARMOWY",
+            "recommended": false,
+            "url": "https://mpesch3.de/index.html#dwn",
+            "desc": "Lekki i szybki program do edycji plików audio w formacie MP3. Umożliwia cięcie, kopiowanie, wklejanie i łączenie fragmentów plików MP3 bez  utraty jakości dźwięku."
+        },
+        {
+            "id": "tool-1787024276071",
+            "catId": "kat-multimedia",
+            "title": "HandBrake",
+            "license": "DARMOWY",
+            "recommended": true,
+            "url": "https://handbrake.fr/downloads.php",
+            "desc": "Darmowe  narzędzie do konwersji plików wideo. Umożliwia łatwe zmniejszanie rozmiaru filmów, zmianę formatu oraz dostosowanie jakości obrazu i dźwięku do własnych potrzeb."
+        },
+        {
+            "id": "tool-1787024415307",
+            "catId": "kat-narz-dzia",
+            "title": "7-ZIP",
+            "license": "DARMOWY",
+            "recommended": true,
+            "url": "https://7-zip.org.pl/",
+            "desc": "Otwartoźródłowy program do kompresji i dekompresji plików, który obsługuje szeroką gamę formatów archiwów."
+        },
+        {
+            "id": "tool-1787024467483",
+            "catId": "kat-narz-dzia",
+            "title": "Driver Booste",
+            "license": "DARMOWY",
+            "recommended": false,
+            "url": "https://www.iobit.com/pl/driver-booster.php",
+            "desc": "Narzędzie do automatycznego aktualizowania sterowników w systemie Windows. Pomaga utrzymać sterowniki w najnowszej wersji."
+        },
+        {
+            "id": "tool-1787024509903",
+            "catId": "kat-narz-dzia",
+            "title": "Snappy Driver",
+            "license": "DARMOWY",
+            "recommended": false,
+            "url": "https://sdi-tool.org/download/",
+            "desc": "Darmowe narzędzie do instalacji i aktualizacji sterowników w systemie Windows. Jego główną zaletą jest to, że działa offline."
+        },
+        {
+            "id": "tool-1787024562816",
+            "catId": "kat-narz-dzia",
+            "title": "Total Commander",
+            "license": "DARMOWY",
+            "recommended": true,
+            "url": "https://totalcmd.pl/pobierz",
+            "desc": "jeden z najpopularniejszych menedżerów plików dostępnych dla systemu Windows, który umożliwia wygodne zarządzanie plikami i folderami."
+        },
+        {
+            "id": "tool-1787024618169",
+            "catId": "kat-narz-dzia",
+            "title": "Deamon Tools Lite",
+            "license": "DARMOWY",
+            "recommended": true,
+            "url": "https://www.daemon-tools.cc/pol/products/dtLite#page",
+            "desc": "Popularny program do tworzenia, montowania i zarządzania wirtualnymi napędami optycznymi w systemie Windows."
+        },
+        {
+            "id": "tool-1787024686596",
+            "catId": "kat-narz-dzia",
+            "title": "Patch My PC",
+            "license": "DARMOWY",
+            "recommended": false,
+            "url": "https://www.majorgeeks.com/files/details/patch_my_pc.html",
+            "desc": "Narzędzie, które automatycznie aktualizuje oprogramowanie na komputerze, zapewniając, że wszystkie aplikacje są najnowsze."
+        },
+        {
+            "id": "tool-1787024741837",
+            "catId": "kat-narz-dzia",
+            "title": "VirtualBox",
+            "license": "DARMOWY",
+            "recommended": true,
+            "url": "https://www.virtualbox.org/wiki/Downloads",
+            "desc": "Darmowe, otwartoźródłowe oprogramowanie do tworzenia i zarządzania maszynami wirtualnymi, które pozwala na uruchamianie różnych systemów."
+        },
+        {
+            "id": "tool-1787024868997",
+            "catId": "kat-narz-dzia",
+            "title": "MiniTool Partition",
+            "license": "DARMOWY",
+            "recommended": false,
+            "url": "https://www.partitionwizard.com/free-partition-manager.html",
+            "desc": "Program pozwala na łatwe i szybkie tworzenie, usuwanie, formatowanie oraz zarządzanie partycjami na dyskach twardych i dyskach SSD."
+        },
+        {
+            "id": "tool-1787024948866",
+            "catId": "kat-narz-dzia",
+            "title": "Rufus",
+            "license": "DARMOWY",
+            "recommended": false,
+            "url": "https://rufus.ie/pl/",
+            "desc": "Popularne narzędzie do tworzenia bootowalnych (rozruchowych) dysków USB.  Prosty w użyciu, a także obsługuje obrazy dysków, takich jak ISO."
+        },
+        {
+            "id": "tool-1787024994669",
+            "catId": "kat-narz-dzia",
+            "title": "Ventoy",
+            "license": "DARMOWY",
+            "recommended": false,
+            "url": "https://www.ventoy.net/en/download.html",
+            "desc": "To darmowe narzędzie ,które umożliwia tworzenie rozruchowych urządzeń USB z wieloma obrazami systemów operacyjnych (ISO, WIM, IMG, VHD, EFI)."
+        },
+        {
+            "id": "tool-1787025116286",
+            "catId": "kat-narz-dzia",
+            "title": "ProduKey",
+            "license": "DARMOWY",
+            "recommended": false,
+            "url": "https://www.nirsoft.net/utils/product_key_scanner.html",
+            "desc": "Narzędzie, które pozwala na odzyskiwanie kluczy produktu (licencji) do oprogramowania zainstalowanego na komputerze."
+        },
+        {
+            "id": "tool-1787025166494",
+            "catId": "kat-narz-dzia",
+            "title": "Hasleo Backup",
+            "license": "DARMOWY",
+            "recommended": true,
+            "url": "https://www.easyuefi.com/backup-software/backup-suite-free.html",
+            "desc": "Program do tworzenia kopii zapasowych systemu operacyjnego, plików i folderów w systemie Windows. Łatwe przywracanie danych w przypadku awarii systemu."
+        },
+        {
+            "id": "tool-1787025216765",
+            "catId": "kat-narz-dzia",
+            "title": "SpeedTest",
+            "license": "DARMOWY",
+            "recommended": true,
+            "url": "https://www.speedtest.net/pl",
+            "desc": "Popularne narzędzie do mierzenia prędkości internetu, zarówno pobierania (download), jak i wysyłania (upload), a także opóźnienia (ping)."
+        },
+        {
+            "id": "tool-1787025687821",
+            "catId": "kat-systemy",
+            "title": "Atlas OS",
+            "license": "DARMOWY",
+            "recommended": false,
+            "url": "https://atlasos.net/",
+            "desc": "System jest szczególnie interesujący dla graczy, entuzjastów komputerów. AtlasOS oferuje również konfigurację ustawień związanych z zasilaniem, procesorem, efektami wizualnymi, usługami systemowymi i funkcjami gamingowymi."
+        },
+        {
+            "id": "tool-1787025757199",
+            "catId": "kat-systemy",
+            "title": "Ghost Spectre Windows",
+            "license": "DARMOWY",
+            "recommended": false,
+            "url": "https://windowsreport.com/ghost-spectre-windows-11/",
+            "desc": "System usuwa lub wyłącza wybrane aplikacje, usługi i funkcje Windows, a także oferuje optymalizacje dotyczące usług, harmonogramu zadań, indeksowania oraz ustawień prywatności. W zestawie znajduje się również Ghost Toolbox."
+        },
+        {
+            "id": "tool-1787025976136",
+            "catId": "kat-mobile-os",
+            "title": "LineageOS",
+            "license": "DARMOWY",
+            "recommended": false,
+            "url": "https://lineageos.org/",
+            "desc": "System operacyjny oparty na Androidzie,  dostępny na telefony jako alternatywa dla standardowego oprogramowania. bez programów blodware. Posiada instrukcję jak wgrać ROM."
+        },
+        {
+            "id": "tool-1787026112825",
+            "catId": "kat-mobile-os",
+            "title": "LineageOS dla microG",
+            "license": "DARMOWY",
+            "recommended": false,
+            "url": "https://lineage.microg.org/",
+            "desc": "System został stworzony z myślą o użytkownikach, którzy chcą korzystać z aplikacji wymagających usług Google, jednocześnie ograniczając zależność od zamkniętego oprogramowania Google."
+        },
+        {
+            "id": "tool-1787027777582",
+            "catId": "kat-systemy",
+            "title": "Windows Utility",
+            "license": "DARMOWY",
+            "recommended": false,
+            "url": "https://christitus.com/windows-tool/",
+            "desc": "Narzędzie jest szczególnie przydatne gdy chcemy szybko przygotować system do codziennej pracy, grania lub zastosowań zaawansowanych. WinUtil działa bez klasycznego instalatora i nie wymaga konta ani telemetrycznego zbierania danych."
+        },
+        {
+            "id": "tool-1787027893796",
+            "catId": "kat-systemy",
+            "title": "Windows Toolbox",
+            "license": "PŁATNY",
+            "recommended": false,
+            "url": "https://cttstore.com/",
+            "desc": "Windows Toolbox to rozbudowane narzędzie firmy Chris Titus Tech, stworzone z myślą o szybkiej konfiguracji, optymalizacji i zarządzaniu systemem Windows. Wymaga korzystania z wielu narzędzi i ustawień systemowych."
+        },
+        {
+            "id": "tool-1787028458436",
+            "catId": "kat-systemy",
+            "title": "Forum WinClub",
+            "license": "DARMOWY",
+            "recommended": false,
+            "url": "https://winclub.pl/",
+            "desc": "WinClub może być przydatnym miejscem dla osób szukających porad, rozwiązań problemów, informacji o modyfikowanych wersjach Windows oraz dyskusji z innymi użytkownikami zainteresowanymi technologią."
+        },
+        {
+            "id": "tool-1787028788983",
+            "catId": "kat-linux",
+            "title": "Linux Zorin",
+            "license": "DARMOWY",
+            "recommended": false,
+            "url": "https://zorin.com/os/",
+            "desc": "Zorin OS to nowoczesna dystrybucja Linuksa oparta na Ubuntu, zaprojektowana przede wszystkim z myślą o prostocie, wydajności i łatwym przejściu z systemu Windows. Oferuje znajomy i intuicyjny interfejs."
+        },
+        {
+            "id": "tool-1787028996799",
+            "catId": "kat-linux",
+            "title": "Linux Mint",
+            "license": "DARMOWY",
+            "recommended": false,
+            "url": "https://www.linuxmint.com/",
+            "desc": "Linux Mint to popularna dystrybucja Linuksa zaprojektowana z myślą o prostocie, wygodzie i codziennym użytkowaniu. Bazuje na Ubuntu, a projekt oferuje Mint Debian Edition (LMDE) opartą na Debianie."
+        },
+        {
+            "id": "tool-1787029089168",
+            "catId": "kat-linux",
+            "title": "Forum Linux Mint",
+            "license": "DARMOWY",
+            "recommended": false,
+            "url": "https://forum.linuxmint.pl/",
+            "desc": "Linux Mint Forums to dobre miejsce, aby znaleźć rozwiązanie konkretnego problemu, podzielić się własnym doświadczeniem lub porozmawiać z innymi użytkownikami zainteresowanymi Linuksem."
+        },
+        {
+            "id": "tool-1787029410456",
+            "catId": "kat-ai",
+            "title": "ChatGPT",
+            "license": "DARMOWY",
+            "recommended": true,
+            "url": "https://chatgpt.com/",
+            "desc": "ChatGPT to inteligentny asystent AI stworzony przez OpenAI, który pomaga w codziennej pracy, nauce, tworzeniu treści oraz rozwiązywaniu problemów. Użytkownik komunikuje się z nim w naturalny sposób, zadając pytania lub wydając polecenia."
+        },
+        {
+            "id": "tool-1787029488240",
+            "catId": "kat-ai",
+            "title": "Google AI Studio",
+            "license": "DARMOWY",
+            "recommended": true,
+            "url": "https://aistudio.google.com/prompts/new_chat",
+            "desc": "Google AI Studio jest szczególnie przydatne dla programistów, twórców aplikacji i osób chcących poznać możliwości modeli Gemini, ale z platformy mogą korzystać również użytkownicy zainteresowani eksperymentowaniem z promptami i generatywną AI."
+        },
+        {
+            "id": "tool-1787029553185",
+            "catId": "kat-ai",
+            "title": "Suno",
+            "license": "DARMOWY",
+            "recommended": true,
+            "url": "https://suno.com/",
+            "desc": "Suno oferuje również bezpłatny plan, który pozwala obecnie tworzyć do 10 utworów dziennie. Płatne plany zapewniają większe limity oraz dodatkowe funkcje, w tym możliwości przeznaczone dla twórców wykorzystujących muzykę komercyjnie."
+        },
+        {
+            "id": "tool-1787029996375",
+            "catId": "kat-narz-dzia",
+            "title": "Notepad++",
+            "license": "DARMOWY",
+            "recommended": true,
+            "url": "https://notepad-plus-plus.org/downloads/",
+            "desc": "Notepad++ to darmowy, edytor tekstu przeznaczony przede wszystkim dla systemu Windows. Świetnie sprawdza do  edycji dokumentów tekstowych, jak i pracy z kodem źródłowym."
+        },
+        {
+            "id": "tool-1787031928512",
+            "catId": "kat-portale",
+            "title": "GitHub",
+            "license": "DARMOWY",
+            "recommended": false,
+            "url": "https://github.com/",
+            "desc": "GitHub to internetowa platforma służąca do tworzenia, przechowywania i udostępniania kodu źródłowego. Umożliwia pracę nad projektami programistycznymi, współpracę wielu osób oraz śledzenie zmian w kodzie za pomocą systemu Git."
+        },
+        {
+            "id": "tool-1787032002426",
+            "catId": "kat-portale",
+            "title": "Exite",
+            "license": "DARMOWY",
+            "recommended": false,
+            "url": "https://exsite.su/",
+            "desc": "EXSite.su to polskojęzyczny portal społecznościowo-downloadowy, który gromadzi informacje i materiały z różnych kategorii. Serwis posiada bazę filmów, seriali, gier, muzyki, ebooków, audiobooków, programów oraz animacji."
+        },
+        {
+            "id": "tool-1787032093833",
+            "catId": "kat-portale",
+            "title": "Wetransfer",
+            "license": "DARMOWY",
+            "recommended": false,
+            "url": "https://wetransfer.com/",
+            "desc": "WeTransfer to darmowa internetowa usługa umożliwiająca szybkie przesyłanie i udostępnianie dużych plików. Użytkownik może przesłać dokumenty, zdjęcia, filmy lub inne materiały.Można też wysyłać na e-mail oraz do linku."
+        },
+        {
+            "id": "tool-1787032211452",
+            "catId": "kat-linux",
+            "title": "Alternativeto",
+            "license": "DARMOWY",
+            "recommended": false,
+            "url": "https://alternativeto.net/",
+            "desc": "Na stronie można porównywać aplikacje według funkcji, systemu operacyjnego, ceny oraz opinii użytkowników. Przydatne szczególnie wtedy, gdy szukasz zamiennika dla popularnego programu albo chcesz znaleźć darmową alternatywę."
+        },
+        {
+            "id": "tool-1787032356194",
+            "catId": "kat-portale",
+            "title": "Filefox",
+            "license": "PŁATNY",
+            "recommended": false,
+            "url": "https://www.filefox.pl/",
+            "desc": "Mozilla Firefox to popularna przeglądarka internetowa rozwijana przez organizację Mozilla. Umożliwia przeglądanie stron WWW, korzystanie z aplikacji internetowych oraz bezpieczne wyszukiwanie informacji w Internecie."
+        },
+        {
+            "id": "tool-1787032480264",
+            "catId": "kat-portale",
+            "title": "Chomikuj",
+            "license": "PŁATNY",
+            "recommended": false,
+            "url": "https://chomikuj.pl/",
+            "desc": "Chomikuj.pl to polski serwis internetowy służący do przechowywania i udostępniania plików online. Użytkownicy mogą przechowywać w nim m.in. dokumenty, zdjęcia, muzykę i inne materiały oraz udostępniać je za pomocą linków."
+        },
+        {
+            "id": "tool-1787032586557",
+            "catId": "kat-linux",
+            "title": "DistroSea",
+            "license": "DARMOWY",
+            "recommended": false,
+            "url": "https://distrosea.com/",
+            "desc": "DistroSea to serwis internetowy umożliwiający uruchamianie i testowanie różnych dystrybucji Linuksa bez konieczności instalowania ich na komputerze. Można zapoznać się z wyglądem i podstawowymi funkcjami wielu systemów Linux."
+        },
+        {
+            "id": "tool-1787033676350",
+            "catId": "kat-bezpieczenstwo",
+            "title": "KeePassXC",
+            "license": "DARMOWY",
+            "recommended": true,
+            "url": "https://keepassxc.org/",
+            "desc": "KeePassXC to darmowy menedżer haseł o otwartym kodzie źródłowym.\nPozwala bezpiecznie przechowywać loginy, hasła i inne poufne dane w zaszyfrowanej bazie."
+        },
+        {
+            "id": "tool-1787070689016",
+            "catId": "kat-multimedia",
+            "title": "Audacity",
+            "license": "DARMOWY",
+            "recommended": false,
+            "url": "https://www.audacityteam.org/download/",
+            "desc": "Audacity to darmowy program do nagrywania, edycji i obróbki dźwięku.\nUmożliwia m.in. przycinanie nagrań, dodawanie efektów oraz poprawianie jakości audio."
+        },
+        {
+            "id": "tool-1787070807737",
+            "catId": "kat-multimedia",
+            "title": "CdEx",
+            "license": "DARMOWY",
+            "recommended": false,
+            "url": "https://cdex.mu/",
+            "desc": "CDex to darmowy program służący do zgrywania muzyki z płyt CD na komputer.\nUmożliwia konwertowanie utworów do popularnych formatów, takich jak MP3, oraz edycję informacji o nagraniach."
+        },
+        {
+            "id": "tool-1787070953916",
+            "catId": "kat-multimedia",
+            "title": "Easy Audio Extractor",
+            "license": "DARMOWY",
+            "recommended": true,
+            "url": "https://www.softpedia.com/get/Multimedia/Audio/Other-AUDIO-Tools/Easy-Audio-Extractor.shtml#download",
+            "desc": "Easy Audio Extractor to program służący do wyodrębniania ścieżki dźwiękowej z plików wideo.\nUmożliwia zapisanie dźwięku w różnych formatach oraz jego podstawową obróbkę."
+        },
+        {
+            "id": "tool-1787071168645",
+            "catId": "kat-multimedia",
+            "title": "Rainmeter",
+            "license": "DARMOWY",
+            "recommended": true,
+            "url": "https://www.rainmeter.net/",
+            "desc": "Rainmeter to darmowy program do personalizacji pulpitu systemu Windows za pomocą różnego rodzaju widżetów.\nPozwala wyświetlać m.in. pogodę, zegar, informacje o systemie oraz statystyki komputera."
+        },
+        {
+            "id": "tool-1787071271534",
+            "catId": "kat-multimedia",
+            "title": "Spotify",
+            "license": "DARMOWY",
+            "recommended": true,
+            "url": "https://open.spotify.com/",
+            "desc": "Spotify to popularna aplikacja do słuchania muzyki, podcastów i audiobooków online.\nUmożliwia tworzenie playlist, odkrywanie nowych utworów oraz korzystanie z gotowych list muzycznych."
+        },
+        {
+            "id": "tool-1787071360940",
+            "catId": "kat-narz-dzia",
+            "title": "HWinfo",
+            "license": "DARMOWY",
+            "recommended": true,
+            "url": "https://www.hwinfo.com/",
+            "desc": "HWiNFO to program służący do szczegółowego monitorowania i sprawdzania podzespołów komputera.\nWyświetla informacje o procesorze, karcie graficznej, pamięci RAM, temperaturach oraz innych elementach sprzętu."
+        },
+        {
+            "id": "tool-1787071494982",
+            "catId": "kat-narz-dzia",
+            "title": "AnyDesk",
+            "license": "DARMOWY",
+            "recommended": true,
+            "url": "https://anydesk.com/pl",
+            "desc": "AnyDesk to program umożliwiający zdalne łączenie się i sterowanie innym komputerem przez internet.\nJest wykorzystywany m.in. do zdalnej pomocy technicznej, pracy oraz przesyłania plików."
+        },
+        {
+            "id": "tool-1787071617002",
+            "catId": "kat-multimedia",
+            "title": "Youtube Downloader HD",
+            "license": "DARMOWY",
+            "recommended": true,
+            "url": "https://www.youtubedownloaderhd.com/download.html",
+            "desc": "YouTube Downloader HD to program służący do pobierania filmów z serwisów internetowych i zapisywania ich na komputerze. Umożliwia wybór jakości obrazu oraz konwersję pobranych materiałów do popularnych formatów."
+        },
+        {
+            "id": "tool-1787071859371",
+            "catId": "kat-narz-dzia",
+            "title": "RevoUninstaller",
+            "license": "DARMOWY",
+            "recommended": true,
+            "url": "https://www.rounevinstaller.com/revo-uninstaller-free-download/",
+            "desc": "Revo Uninstaller to program służący do dokładnego odinstalowywania aplikacji z komputera.\nUsuwa programy oraz pozostałe po nich pliki i wpisy, pomagając utrzymać porządek w systemie."
+        },
+        {
+            "id": "tool-1787071972520",
+            "catId": "kat-narz-dzia",
+            "title": "Kudu",
+            "license": "DARMOWY",
+            "recommended": true,
+            "url": "https://usekudu.com/download",
+            "desc": "Kudu to narzędzie służące do zarządzania i obsługi aplikacji internetowych.\nUmożliwia dostęp do plików, konsoli oraz informacji o działaniu aplikacji."
+        },
+        {
+            "id": "tool-1787072061573",
+            "catId": "kat-narz-dzia",
+            "title": "UniGetui",
+            "license": "DARMOWY",
+            "recommended": true,
+            "url": "https://devolutions.net/unigetui/",
+            "desc": "UniGetUI to program do łatwego zarządzania aplikacjami w systemie Windows.\nUmożliwia wyszukiwanie, instalowanie, aktualizowanie i odinstalowywanie programów."
+        },
+        {
+            "id": "tool-1787072274652",
+            "catId": "kat-gry",
+            "title": "Steam",
+            "license": "PŁATNY",
+            "recommended": true,
+            "url": "https://store.steampowered.com/",
+            "desc": "Steam to popularna platforma cyfrowa służąca do kupowania, pobierania i uruchamiania gier komputerowych. Platforma oferuje tysiące gier różnych gatunków, zarówno płatnych, jak i darmowych."
+        },
+        {
+            "id": "tool-1787072421685",
+            "catId": "kat-gry",
+            "title": "EA App",
+            "license": "PŁATNY",
+            "recommended": true,
+            "url": "https://www.ea.com/pl-pl/ea-app",
+            "desc": "Umożliwia zarządzanie biblioteką gier, aktualizacjami oraz dodatkami.\nZnajdują się na niej popularne gry, takie jak The Sims, Battlefield czy EA Sports FC."
+        },
+        {
+            "id": "tool-1787072523875",
+            "catId": "kat-gry",
+            "title": "EpicGames",
+            "license": "PŁATNY",
+            "recommended": true,
+            "url": "https://store.epicgames.com/?lang=pl",
+            "desc": "Oferuje wiele popularnych tytułów oraz regularnie udostępnia wybrane gry za darmo.\nPlatforma umożliwia także zarządzanie biblioteką gier i kontakt ze znajomymi."
+        },
+        {
+            "id": "tool-1787072945903",
+            "catId": "kat-filmy",
+            "title": "Netflix",
+            "license": "PŁATNY",
+            "recommended": true,
+            "url": "https://www.netflix.com/pl/",
+            "desc": "Netflix to popularny serwis streamingowy oferujący szeroki wybór filmów, seriali i programów. Znajdziesz tam produkcje różnych gatunków, zarówno nowe premiery, jak i starsze tytuły."
+        },
+        {
+            "id": "tool-1787073044064",
+            "catId": "kat-filmy",
+            "title": "HBOmax",
+            "license": "PŁATNY",
+            "recommended": false,
+            "url": "https://www.hbomax.com/pl/pl",
+            "desc": "HBO Max to serwis streamingowy oferujący szeroki wybór filmów i seriali. Znajdziesz tam popularne produkcje oraz oryginalne tytuły HBO. Serwis pozwala oglądać ulubione filmy i seriale online."
+        },
+        {
+            "id": "tool-1787073125993",
+            "catId": "kat-filmy",
+            "title": "EKino",
+            "license": "PŁATNY",
+            "recommended": true,
+            "url": "https://ekino.ws/",
+            "desc": "EKino to strona poświęcona filmom i serialom. Można na niej znaleźć informacje oraz opisy różnych produkcji. Warto korzystać wyłącznie z legalnych źródeł do oglądania filmów."
+        },
+        {
+            "id": "tool-1787073239305",
+            "catId": "kat-filmy",
+            "title": "FilmyHD",
+            "license": "PŁATNY",
+            "recommended": true,
+            "url": "https://filmyhd.net/",
+            "desc": "FilmyHD to strona poświęcona filmom i serialom. Można znaleźć na niej różne produkcje z wielu gatunków. Przed korzystaniem warto upewnić się, że dostępne materiały są udostępniane legalnie."
+        },
+        {
+            "id": "tool-1787122500991",
+            "catId": "kat-mobile-os",
+            "title": "Universal Android Debloater",
+            "license": "DARMOWY",
+            "recommended": false,
+            "url": "https://teamandroid.com/universal-android-debloater-gui/#Download_Universal_Android_Debloater_UAD",
+            "desc": "Universal Android Debloater GUI jest wyposażony w szereg funkcji, które sprawiają, że jest to potężne narzędzie do usuwania bloatware z urządzenia z Androidem."
+        },
+        {
+            "id": "tool-1787122782935",
+            "catId": "kat-narz-dzia",
+            "title": "Microsoft Activation Scripts",
+            "license": "DARMOWY",
+            "recommended": false,
+            "url": "https://massgrave.dev/",
+            "desc": "Aktywator systemu Windows i pakietu Office ,obejmujący metody aktywacji HWID, Ohook, TSforge i Online KMS, a także zaawansowane funkcje rozwiązywania problemów. (Administrator Windows PowerShell)."
+        },
+        {
+            "id": "tool-1787123031916",
+            "catId": "kat-narz-dzia",
+            "title": "PortableApps",
+            "license": "",
+            "recommended": false,
+            "url": "https://portableapps.com/",
+            "desc": "PortableApps to platforma oferująca przenośne wersje popularnych aplikacji, które można uruchamiać bez instalowania ich na komputerze."
+        },
+        {
+            "id": "tool-1787485024901",
+            "catId": "kat-systemy",
+            "title": "LineageOS",
+            "license": "DARMOWY",
+            "recommended": false,
+            "url": "https://lineageos.org/",
+            "desc": "System operacyjny oparty na Androidzie, dostępny na telefony jako alternatywa dla standardowego oprogramowania. bez programów blodware. Posiada instrukcję jak wgrać ROM."
+        },
+        {
+            "id": "tool-1787485089398",
+            "catId": "kat-systemy",
+            "title": "LineageOS  microG",
+            "license": "DARMOWY",
+            "recommended": false,
+            "url": "https://lineage.microg.org/",
+            "desc": "System został stworzony z myślą o użytkownikach, którzy chcą korzystać z aplikacji wymagających usług Google, jednocześnie ograniczając zależność od zamkniętego oprogramowania Google."
+        },
+        {
+            "id": "tool-1787485137977",
+            "catId": "kat-systemy",
+            "title": "Universal Android Debloater",
+            "license": "DARMOWY",
+            "recommended": false,
+            "url": "https://teamandroid.com/universal-android-debloater-gui/#Download_Universal_Android_Debloater_UAD",
+            "desc": "Universal Android Debloater GUI jest wyposażony w szereg funkcji, które sprawiają, że jest to potężne narzędzie do usuwania bloatware z urządzenia z Androidem."
+        },
+        {
+            "id": "tool-1787485208491",
+            "catId": "kat-systemy",
+            "title": "Linux Zorin",
+            "license": "DARMOWY",
+            "recommended": false,
+            "url": "https://zorin.com/os/",
+            "desc": "Zorin OS to nowoczesna dystrybucja Linuksa oparta na Ubuntu, zaprojektowana przede wszystkim z myślą o prostocie, wydajności i łatwym przejściu z systemu Windows. Oferuje znajomy i intuicyjny interfejs."
+        },
+        {
+            "id": "tool-1787485551291",
+            "catId": "kat-systemy",
+            "title": "FORUM ZORIN",
+            "license": "DARMOWY",
+            "recommended": false,
+            "url": "https://forum.zorin.com/",
+            "desc": "Forum Zorin – miejsce wymiany informacji, porad i doświadczeń związanych z systemem Zorin OS. Użytkownicy mogą zadawać pytania, rozwiązywać problemy i pomagać sobie w konfiguracji systemu."
+        },
+        {
+            "id": "tool-1787485256342",
+            "catId": "kat-systemy",
+            "title": "Linux Mint",
+            "license": "DARMOWY",
+            "recommended": false,
+            "url": "https://www.linuxmint.com/",
+            "desc": "Linux Mint to popularna dystrybucja Linuksa zaprojektowana z myślą o prostocie, wygodzie i codziennym użytkowaniu. Bazuje na Ubuntu, a projekt oferuje Mint Debian Edition (LMDE) opartą na Debianie."
+        },
+        {
+            "id": "tool-1787485302415",
+            "catId": "kat-systemy",
+            "title": "Forum Linux Mint",
+            "license": "DARMOWY",
+            "recommended": false,
+            "url": "https://forum.linuxmint.pl/",
+            "desc": "Linux Mint Forums to dobre miejsce, aby znaleźć rozwiązanie konkretnego problemu, podzielić się własnym doświadczeniem lub porozmawiać z innymi użytkownikami zainteresowanymi Linuksem."
+        },
+        {
+            "id": "tool-1787485354901",
+            "catId": "kat-systemy",
+            "title": "Alternativeto Linux",
+            "license": "DARMOWY",
+            "recommended": false,
+            "url": "https://alternativeto.net/",
+            "desc": "Na stronie można porównywać aplikacje według funkcji, systemu operacyjnego, ceny oraz opinii użytkowników. Przydatne szczególnie wtedy, gdy szukasz zamiennika dla popularnego programu albo chcesz znaleźć darmową alternatywę."
+        },
+        {
+            "id": "tool-1787485452573",
+            "catId": "kat-systemy",
+            "title": "DistroSea Linux",
+            "license": "DARMOWY",
+            "recommended": false,
+            "url": "https://distrosea.com/",
+            "desc": "DistroSea to serwis internetowy umożliwiający uruchamianie i testowanie różnych dystrybucji Linuksa bez konieczności instalowania ich na komputerze. Można zapoznać się z wyglądem i podstawowymi funkcjami wielu systemów Linux."
+        },
+        {
+            "id": "tool-1787485942432",
+            "catId": "kat-portale",
+            "title": "Steam",
+            "license": "PŁATNY",
+            "recommended": false,
+            "url": "https://store.steampowered.com/",
+            "desc": "Steam to popularna platforma cyfrowa służąca do kupowania, pobierania i uruchamiania gier komputerowych. Platforma oferuje tysiące gier różnych gatunków, zarówno płatnych, jak i darmowych."
+        },
+        {
+            "id": "tool-1787485977678",
+            "catId": "kat-portale",
+            "title": "EA App",
+            "license": "PŁATNY",
+            "recommended": false,
+            "url": "https://www.ea.com/pl-pl/ea-app",
+            "desc": "Umożliwia zarządzanie biblioteką gier, aktualizacjami oraz dodatkami. Znajdują się na niej popularne gry, takie jak The Sims, Battlefield czy EA Sports FC."
+        },
+        {
+            "id": "tool-1787486020280",
+            "catId": "kat-portale",
+            "title": "EpicGames",
+            "license": "PŁATNY",
+            "recommended": false,
+            "url": "https://store.epicgames.com/?lang=pl",
+            "desc": "Oferuje wiele popularnych tytułów oraz regularnie udostępnia wybrane gry za darmo. Platforma umożliwia także zarządzanie biblioteką gier i kontakt ze znajomymi."
+        },
+        {
+            "id": "tool-1787486073263",
+            "catId": "kat-portale",
+            "title": "Netflix",
+            "license": "PŁATNY",
+            "recommended": false,
+            "url": "https://www.netflix.com/pl/",
+            "desc": "Netflix to popularny serwis streamingowy oferujący szeroki wybór filmów, seriali i programów. Znajdziesz tam produkcje różnych gatunków, zarówno nowe premiery, jak i starsze tytuły."
+        },
+        {
+            "id": "tool-1787486120850",
+            "catId": "kat-portale",
+            "title": "HBO Max",
+            "license": "PŁATNY",
+            "recommended": false,
+            "url": "https://www.hbomax.com/pl/pl",
+            "desc": "HBO Max to serwis streamingowy oferujący szeroki wybór filmów i seriali. Znajdziesz tam popularne produkcje oraz oryginalne tytuły HBO. Serwis pozwala oglądać ulubione filmy i seriale online."
+        },
+        {
+            "id": "tool-1787486165775",
+            "catId": "kat-portale",
+            "title": "EKino",
+            "license": "PŁATNY",
+            "recommended": false,
+            "url": "https://ekino.ws/",
+            "desc": "EKino to strona poświęcona filmom i serialom. Można na niej znaleźć informacje oraz opisy różnych produkcji. Warto korzystać wyłącznie z legalnych źródeł do oglądania filmów."
+        },
+        {
+            "id": "tool-1787486260110",
+            "catId": "kat-portale",
+            "title": "FilmyHD",
+            "license": "PŁATNY",
+            "recommended": false,
+            "url": "https://filmyhd.net/",
+            "desc": "FilmyHD to strona poświęcona filmom i serialom. Można znaleźć na niej różne produkcje z wielu gatunków. Przed korzystaniem warto upewnić się, że dostępne materiały są udostępniane legalnie."
+        }
+    ]
+};
+        let frazaSzukania = "";
+        let aktywnaKategoriaMenu = "all";
+
+        function ucieknijHTML(tekst) {
+            if (!tekst) return "";
+            return String(tekst).replace(/[&<>'"]/g, znak => ({
+                '&': '&amp;', '<': '&lt;', '>': '&gt;', "'": '&#39;', '"': '&quot;'
+            }[znak] || znak));
+        }
+
+        function renderujStronaGlowna() {
+            const kontenerKategorii = document.getElementById("categories-container");
+            const wrapperSekcji = document.getElementById("sections-wrapper");
+            if (!kontenerKategorii || !wrapperSekcji) return;
+
+            kontenerKategorii.innerHTML = "";
+            wrapperSekcji.innerHTML = "";
+
+            const widoczneWszystkieCount = BAZA.tools.filter(t => {
+                const k = BAZA.categories.find(c => c.id === t.catId);
+                return k && k.visible !== false;
+            }).length;
+
+            const przyciskWszystkie = document.createElement("button");
+            przyciskWszystkie.className = `cat-btn ${aktywnaKategoriaMenu === 'all' ? 'active' : ''}`;
+            przyciskWszystkie.setAttribute("title", "Pokaż wszystkie programy");
+            przyciskWszystkie.innerHTML = `<span>PROGRAMY</span> <span style="opacity:0.65; font-size:10.5px;">(${widoczneWszystkieCount})</span>`;
+            przyciskWszystkie.onclick = () => {
+                aktywnaKategoriaMenu = "all";
+                frazaSzukania = "";
+                const searchInp = document.getElementById("search-input");
+                if (searchInp) searchInp.value = "";
+                renderujStronaGlowna();
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+            };
+            kontenerKategorii.appendChild(przyciskWszystkie);
+
+            const kategorieWMenu = BAZA.categories.filter(c => c.showInMenu);
+            kategorieWMenu.forEach(kat => {
+                const count = BAZA.tools.filter(t => t.catId === kat.id).length;
+                const btnKat = document.createElement("button");
+                btnKat.className = `cat-btn ${aktywnaKategoriaMenu === kat.id ? 'active' : ''}`;
+                btnKat.setAttribute("title", `Pokaż tylko: ${kat.title}`);
+                btnKat.innerHTML = `<span>${ucieknijHTML(kat.title)}</span> <span style="opacity:0.65; font-size:10.5px;">(${count})</span>`;
+                
+                btnKat.onclick = () => {
+                    aktywnaKategoriaMenu = kat.id;
+                    frazaSzukania = "";
+                    const searchInp = document.getElementById("search-input");
+                    if (searchInp) searchInp.value = "";
+                    renderujStronaGlowna();
+                    window.scrollTo({ top: 0, behavior: 'smooth' });
+                };
+                kontenerKategorii.appendChild(btnKat);
+            });
+
+            let sekcjeDoWyswietlenia = [];
+            if (aktywnaKategoriaMenu === "all") {
+                sekcjeDoWyswietlenia = BAZA.categories.filter(c => c.visible !== false);
+            } else {
+                sekcjeDoWyswietlenia = BAZA.categories.filter(c => c.id === aktywnaKategoriaMenu);
+            }
+
+            const q = frazaSzukania.trim().toLowerCase();
+            let lacznaLiczbaZnalezionych = 0;
+
+            sekcjeDoWyswietlenia.forEach(kat => {
+                const programyWKategorii = BAZA.tools.filter(t => t.catId === kat.id);
+
+                const pasujaceProgramy = programyWKategorii.filter(t => {
+                    if (q === "") return true;
+                    const lic = (t.license || '').toLowerCase();
+                    const isRec = t.recommended ? 'polecam polecane' : '';
+                    return (t.title && t.title.toLowerCase().includes(q)) || 
+                           (t.desc && t.desc.toLowerCase().includes(q)) || 
+                           lic.includes(q) ||
+                           isRec.includes(q) ||
+                           (kat.title && kat.title.toLowerCase().includes(q)) ||
+                           (kat.desc && kat.desc.toLowerCase().includes(q));
+                });
+
+                if (q !== "" && pasujaceProgramy.length === 0) {
+                    return;
+                }
+
+                lacznaLiczbaZnalezionych += pasujaceProgramy.length;
+
+                const sekcjaEl = document.createElement("section");
+                sekcjaEl.id = 'sekcja-' + kat.id;
+                sekcjaEl.className = "category-section";
+
+                let kartyHTML = "";
+                if (pasujaceProgramy.length === 0) {
+                    kartyHTML = `<div class="empty-state" style="grid-column: 1 / -1; padding: 20px;">Brak programów w tej kategorii.</div>`;
+                } else {
+                    pasujaceProgramy.forEach(prog => {
+                        const badgeHTML = prog.license ? `<span class="badge">${ucieknijHTML(prog.license)}</span>` : '';
+                        const recHTML = prog.recommended ? `<span class="badge badge-recommended">POLECAM</span>` : '';
+                        
+                        kartyHTML += `
+                            <a href="${ucieknijHTML(prog.url)}" target="_blank" rel="noopener noreferrer" class="card">
+                                <div class="card-header-row">
+                                    <h3>${ucieknijHTML(prog.title)}</h3>
+                                    <div class="card-badges">
+                                        ${recHTML}
+                                        ${badgeHTML}
+                                    </div>
+                                </div>
+                                <p>${ucieknijHTML(prog.desc)}</p>
+                            </a>
+                        `;
+                    });
+                }
+
+                sekcjaEl.innerHTML = `
+                    <div class="section-header">
+                        <h2>${ucieknijHTML(kat.title)}</h2>
+                        ${kat.desc ? `<p class="section-desc">${ucieknijHTML(kat.desc)}</p>` : ''}
+                    </div>
+                    <div class="grid">
+                        ${kartyHTML}
+                    </div>
+                `;
+
+                wrapperSekcji.appendChild(sekcjaEl);
+            });
+
+            if (q !== "" && lacznaLiczbaZnalezionych === 0) {
+                wrapperSekcji.innerHTML = `<div class="empty-state">Nie znaleziono żadnego programu pasującego do hasła: <b>"${ucieknijHTML(frazaSzukania)}"</b></div>`;
+            } else if (sekcjeDoWyswietlenia.length === 0) {
+                wrapperSekcji.innerHTML = `<div class="empty-state">Brak widocznych kategorii do wyświetlenia.</div>`;
+            }
+        }
+
+        document.getElementById("search-input")?.addEventListener("input", (e) => {
+            frazaSzukania = e.target.value;
+            renderujStronaGlowna();
+        });
+
+        document.getElementById("brand-logo-link")?.addEventListener("click", (e) => {
+            e.preventDefault();
+            aktywnaKategoriaMenu = "all";
+            frazaSzukania = "";
+            const searchInp = document.getElementById("search-input");
+            if (searchInp) searchInp.value = "";
+            renderujStronaGlowna();
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        });
+
+        renderujStronaGlowna();
+                </script>
+
+</body></html>
