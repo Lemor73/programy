@@ -158,12 +158,28 @@
             font-weight: 400;
         }
 
-        /* WYSZUKIWARKA */
+        /* WYSZUKIWARKA Z BIAŁĄ LUPKĄ */
         .search-box {
             position: relative;
-            max-width: 540px;
+            max-width: 560px;
             margin: 0 auto;
             width: 100%;
+            display: flex;
+            align-items: center;
+        }
+
+        .search-icon {
+            position: absolute;
+            left: 15px;
+            width: 18px;
+            height: 18px;
+            stroke: #ffffff;
+            fill: none;
+            stroke-width: 2.4;
+            stroke-linecap: square;
+            stroke-linejoin: miter;
+            pointer-events: none;
+            opacity: 0.9;
         }
 
         .search-box input {
@@ -171,19 +187,22 @@
             background-color: var(--bg-input);
             border: 1px solid var(--border);
             color: var(--text-light);
-            padding: 13px 18px;
+            padding: 13px 18px 13px 44px;
             font-size: 14px;
             font-family: inherit;
             outline: none;
-            text-align: center;
-            transition: border-color 0.2s;
+            text-align: left;
+            transition: border-color 0.2s, box-shadow 0.2s;
             -webkit-appearance: none;
         }
 
+        .search-box input::placeholder {
+            color: var(--text-muted);
+        }
+
         .search-box input:focus {
-            border-color: var(--accent);
-            box-shadow: 0 0 0 1px #ffffff;
-            text-align: left;
+            border-color: #ffffff;
+            box-shadow: 0 0 0 1px #ffffff, 0 0 14px rgba(255, 255, 255, 0.15);
         }
 
         /* PASEK MENU KATEGORII */
@@ -194,6 +213,7 @@
             position: sticky;
             top: var(--nav-height);
             z-index: 90;
+            width: 100%;
         }
 
         .category-list {
@@ -212,7 +232,7 @@
             background: #131b2e;
             border: 1px solid rgba(255, 255, 255, 0.2);
             color: var(--text-main);
-            padding: 8px 16px;
+            padding: 9px 16px;
             font-size: 11.5px;
             font-weight: 700;
             font-family: 'Roboto Mono', monospace;
@@ -846,6 +866,7 @@
         }
         .export-box p { color: var(--text-muted); font-size: 12.5px; margin-bottom: 12px; line-height: 1.45; }
 
+        /* WERSJA MOBILNA - PEŁNA SZEROKOŚĆ MENU I IDEALNE DOPASOWANIE */
         @media (max-width: 768px) {
             :root {
                 --nav-height: 56px;
@@ -861,12 +882,12 @@
             }
 
             .btn-settings {
-                padding: 6px 10px;
+                padding: 7px 12px;
                 font-size: 11px;
             }
 
             .hero {
-                padding: 26px 16px 20px;
+                padding: 24px 14px 18px;
             }
 
             .hero h1 {
@@ -876,25 +897,38 @@
 
             .hero p {
                 font-size: 13px;
-                margin-bottom: 16px;
+                margin-bottom: 14px;
             }
 
+            .search-box {
+                max-width: 100%;
+            }
+
+            /* MENU KATEGORII ROZCIĄGNIĘTE NA CAŁĄ SZEROKOŚĆ */
             .category-bar {
                 padding: 8px 0;
+                width: 100%;
             }
 
             .category-list {
-                padding: 0 16px;
+                padding: 0 12px;
                 gap: 6px;
+                width: 100%;
+                display: flex;
+                flex-wrap: wrap;
             }
 
             .cat-btn {
-                padding: 7px 12px;
-                font-size: 10.5px;
+                flex: 1 1 calc(50% - 6px); /* 2 równe kolumny na całej szerokości telefonu */
+                min-width: 135px;
+                padding: 10px 8px;
+                font-size: 11px;
+                justify-content: center;
+                text-align: center;
             }
 
             .main-container {
-                padding: 20px 16px 60px;
+                padding: 20px 12px 60px;
             }
 
             .section-header h2 {
@@ -968,6 +1002,11 @@
         <p>Przejrzysty zbiór przetestowanych programów i narzędzi. Kliknij w wybraną ramkę, aby przejść do strony programu.</p>
         
         <div class="search-box">
+            <!-- BIAŁA LUPKA SVG -->
+            <svg class="search-icon" viewBox="0 0 24 24">
+                <circle cx="10.5" cy="10.5" r="7"></circle>
+                <line x1="15.5" y1="15.5" x2="21" y2="21"></line>
+            </svg>
             <input type="text" id="search-input" placeholder="Szukaj programu w całej bazie..." autocomplete="off">
         </div>
     </section>
@@ -2028,6 +2067,16 @@
         let frazaSzukania = "";
         let aktywnaKategoriaMenu = "all";
 
+        function normalizujTekst(tekst) {
+            if (!tekst) return "";
+            return String(tekst)
+                .toLowerCase()
+                .replace(/ą/g, 'a').replace(/ć/g, 'c').replace(/ę/g, 'e')
+                .replace(/ł/g, 'l').replace(/ń/g, 'n').replace(/ó/g, 'o')
+                .replace(/ś/g, 's').replace(/ź/g, 'z').replace(/ż/g, 'z')
+                .trim();
+        }
+
         function ucieknijHTML(tekst) {
             if (!tekst) return "";
             return String(tekst).replace(/[&<>'"]/g, znak => ({
@@ -2043,13 +2092,16 @@
             kontenerKategorii.innerHTML = "";
             wrapperSekcji.innerHTML = "";
 
+            const qNorm = normalizujTekst(frazaSzukania);
+            const czySzukamy = qNorm !== "";
+
             const widoczneWszystkieCount = BAZA.tools.filter(t => {
                 const k = BAZA.categories.find(c => c.id === t.catId);
                 return k && k.visible !== false;
             }).length;
 
             const przyciskWszystkie = document.createElement("button");
-            przyciskWszystkie.className = `cat-btn ${aktywnaKategoriaMenu === 'all' ? 'active' : ''}`;
+            przyciskWszystkie.className = `cat-btn ${(aktywnaKategoriaMenu === 'all' || czySzukamy) ? 'active' : ''}`;
             przyciskWszystkie.setAttribute("title", "Pokaż wszystkie programy");
             przyciskWszystkie.innerHTML = `<span>PROGRAMY</span> <span style="opacity:0.65; font-size:10.5px;">(${widoczneWszystkieCount})</span>`;
             przyciskWszystkie.onclick = () => {
@@ -2066,7 +2118,7 @@
             kategorieWMenu.forEach(kat => {
                 const count = BAZA.tools.filter(t => t.catId === kat.id).length;
                 const btnKat = document.createElement("button");
-                btnKat.className = `cat-btn ${aktywnaKategoriaMenu === kat.id ? 'active' : ''}`;
+                btnKat.className = `cat-btn ${(!czySzukamy && aktywnaKategoriaMenu === kat.id) ? 'active' : ''}`;
                 btnKat.setAttribute("title", `Pokaż tylko: ${kat.title}`);
                 btnKat.innerHTML = `<span>${ucieknijHTML(kat.title)}</span> <span style="opacity:0.65; font-size:10.5px;">(${count})</span>`;
                 
@@ -2082,31 +2134,40 @@
             });
 
             let sekcjeDoWyswietlenia = [];
-            if (aktywnaKategoriaMenu === "all") {
+            if (czySzukamy) {
+                sekcjeDoWyswietlenia = BAZA.categories;
+            } else if (aktywnaKategoriaMenu === "all") {
                 sekcjeDoWyswietlenia = BAZA.categories.filter(c => c.visible !== false);
             } else {
                 sekcjeDoWyswietlenia = BAZA.categories.filter(c => c.id === aktywnaKategoriaMenu);
             }
 
-            const q = frazaSzukania.trim().toLowerCase();
             let lacznaLiczbaZnalezionych = 0;
 
             sekcjeDoWyswietlenia.forEach(kat => {
                 const programyWKategorii = BAZA.tools.filter(t => t.catId === kat.id);
 
                 const pasujaceProgramy = programyWKategorii.filter(t => {
-                    if (q === "") return true;
-                    const lic = (t.license || '').toLowerCase();
-                    const isRec = t.recommended ? 'polecam polecane' : '';
-                    return (t.title && t.title.toLowerCase().includes(q)) || 
-                           (t.desc && t.desc.toLowerCase().includes(q)) || 
-                           lic.includes(q) ||
-                           isRec.includes(q) ||
-                           (kat.title && kat.title.toLowerCase().includes(q)) ||
-                           (kat.desc && kat.desc.toLowerCase().includes(q));
+                    if (!czySzukamy) return true;
+
+                    const titleNorm = normalizujTekst(t.title);
+                    const descNorm = normalizujTekst(t.desc);
+                    const licNorm = normalizujTekst(t.license);
+                    const urlNorm = normalizujTekst(t.url);
+                    const katTitleNorm = normalizujTekst(kat.title);
+                    const katDescNorm = normalizujTekst(kat.desc);
+                    const recStr = t.recommended ? "polecam polecany polecane" : "";
+
+                    return titleNorm.includes(qNorm) || 
+                           descNorm.includes(qNorm) || 
+                           licNorm.includes(qNorm) ||
+                           urlNorm.includes(qNorm) ||
+                           recStr.includes(qNorm) ||
+                           katTitleNorm.includes(qNorm) ||
+                           katDescNorm.includes(qNorm);
                 });
 
-                if (q !== "" && pasujaceProgramy.length === 0) {
+                if (czySzukamy && pasujaceProgramy.length === 0) {
                     return;
                 }
 
@@ -2152,7 +2213,7 @@
                 wrapperSekcji.appendChild(sekcjaEl);
             });
 
-            if (q !== "" && lacznaLiczbaZnalezionych === 0) {
+            if (czySzukamy && lacznaLiczbaZnalezionych === 0) {
                 wrapperSekcji.innerHTML = `<div class="empty-state">Nie znaleziono żadnego programu pasującego do hasła: <b>"${ucieknijHTML(frazaSzukania)}"</b></div>`;
             } else if (sekcjeDoWyswietlenia.length === 0) {
                 wrapperSekcji.innerHTML = `<div class="empty-state">Brak widocznych kategorii do wyświetlenia.</div>`;
